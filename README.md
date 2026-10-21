@@ -1,5 +1,7 @@
 # Qirvexa
 
+[![Validate demo](https://github.com/abomosaa/qirvexa/actions/workflows/ci.yml/badge.svg)](https://github.com/abomosaa/qirvexa/actions/workflows/ci.yml)
+
 <div dir="rtl" align="right">
 
 لوحة إدارة مشاريع ثنائية اللغة، بالعربية أولًا، مع أداة لتحويل فكرة قصيرة إلى موجز قابل للتعديل. مشروع معرض أعمال بهوية وبيانات خيالية؛ لا تمثل الأرقام إيرادات أو عملاء حقيقيين.
