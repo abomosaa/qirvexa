@@ -1,0 +1,287 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-21T20:20:28.371Z",
+  "title": "Design System: Qirvexa",
+  "extensions": {
+    "colorMeta": {
+      "brand": {
+        "role": "primary",
+        "displayName": "Forest Brand",
+        "canonical": "#176748",
+        "tonalRamp": [
+          "oklch(15% 0.0908 162.27)",
+          "oklch(26% 0.0908 162.27)",
+          "oklch(38% 0.0908 162.27)",
+          "oklch(49% 0.0908 162.27)",
+          "oklch(61% 0.0908 162.27)",
+          "oklch(72% 0.0908 162.27)",
+          "oklch(84% 0.0908 162.27)",
+          "oklch(95% 0.0908 162.27)"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Soft Mint",
+        "canonical": "#a9d8b3",
+        "tonalRamp": [
+          "oklch(15% 0.0710 151.07)",
+          "oklch(26% 0.0710 151.07)",
+          "oklch(38% 0.0710 151.07)",
+          "oklch(49% 0.0710 151.07)",
+          "oklch(61% 0.0710 151.07)",
+          "oklch(72% 0.0710 151.07)",
+          "oklch(84% 0.0710 151.07)",
+          "oklch(95% 0.0710 151.07)"
+        ]
+      },
+      "bg": {
+        "role": "neutral",
+        "displayName": "Limestone Workspace",
+        "canonical": "#f4f6f3",
+        "tonalRamp": [
+          "oklch(15% 0.0045 134.85)",
+          "oklch(26% 0.0045 134.85)",
+          "oklch(38% 0.0045 134.85)",
+          "oklch(49% 0.0045 134.85)",
+          "oklch(61% 0.0045 134.85)",
+          "oklch(72% 0.0045 134.85)",
+          "oklch(84% 0.0045 134.85)",
+          "oklch(95% 0.0045 134.85)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "White Surface",
+        "canonical": "#fff",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.88)",
+          "oklch(26% 0.0000 89.88)",
+          "oklch(38% 0.0000 89.88)",
+          "oklch(49% 0.0000 89.88)",
+          "oklch(61% 0.0000 89.88)",
+          "oklch(72% 0.0000 89.88)",
+          "oklch(84% 0.0000 89.88)",
+          "oklch(95% 0.0000 89.88)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Deep Ink",
+        "canonical": "#172a25",
+        "tonalRamp": [
+          "oklch(15% 0.0267 175.65)",
+          "oklch(26% 0.0267 175.65)",
+          "oklch(38% 0.0267 175.65)",
+          "oklch(49% 0.0267 175.65)",
+          "oklch(61% 0.0267 175.65)",
+          "oklch(72% 0.0267 175.65)",
+          "oklch(84% 0.0267 175.65)",
+          "oklch(95% 0.0267 175.65)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Green",
+        "canonical": "#52655d",
+        "tonalRamp": [
+          "oklch(15% 0.0263 167.81)",
+          "oklch(26% 0.0263 167.81)",
+          "oklch(38% 0.0263 167.81)",
+          "oklch(49% 0.0263 167.81)",
+          "oklch(61% 0.0263 167.81)",
+          "oklch(72% 0.0263 167.81)",
+          "oklch(84% 0.0263 167.81)",
+          "oklch(95% 0.0263 167.81)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Pale Rule",
+        "canonical": "#dce5dd",
+        "tonalRamp": [
+          "oklch(15% 0.0144 148.77)",
+          "oklch(26% 0.0144 148.77)",
+          "oklch(38% 0.0144 148.77)",
+          "oklch(49% 0.0144 148.77)",
+          "oklch(61% 0.0144 148.77)",
+          "oklch(72% 0.0144 148.77)",
+          "oklch(84% 0.0144 148.77)",
+          "oklch(95% 0.0144 148.77)"
+        ]
+      },
+      "sidebar": {
+        "role": "neutral",
+        "displayName": "Forest Navigation",
+        "canonical": "#102c22",
+        "tonalRamp": [
+          "oklch(15% 0.0392 167.55)",
+          "oklch(26% 0.0392 167.55)",
+          "oklch(38% 0.0392 167.55)",
+          "oklch(49% 0.0392 167.55)",
+          "oklch(61% 0.0392 167.55)",
+          "oklch(72% 0.0392 167.55)",
+          "oklch(84% 0.0392 167.55)",
+          "oklch(95% 0.0392 167.55)"
+        ]
+      },
+      "danger": {
+        "role": "semantic",
+        "displayName": "Destructive Red",
+        "canonical": "#a33131",
+        "tonalRamp": [
+          "oklch(15% 0.1501 24.68)",
+          "oklch(26% 0.1501 24.68)",
+          "oklch(38% 0.1501 24.68)",
+          "oklch(49% 0.1501 24.68)",
+          "oklch(61% 0.1501 24.68)",
+          "oklch(72% 0.1501 24.68)",
+          "oklch(84% 0.1501 24.68)",
+          "oklch(95% 0.1501 24.68)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Page heading",
+        "purpose": "Primary operational page titles."
+      },
+      "title": {
+        "displayName": "Panel title",
+        "purpose": "Section and panel headings."
+      },
+      "metric": {
+        "displayName": "Metric",
+        "purpose": "Tabular amounts and totals."
+      },
+      "label": {
+        "displayName": "Support label",
+        "purpose": "Compact metadata and control labels."
+      }
+    },
+    "shadows": [
+      {
+        "name": "dialog",
+        "value": "0 20px 80px #102c2233",
+        "purpose": "Modal overlay only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "control",
+        "value": "background .18s,color .18s",
+        "purpose": "Button state feedback."
+      },
+      {
+        "name": "drawer",
+        "value": "transform .2s ease",
+        "purpose": "Mobile navigation."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide",
+        "value": "1600px",
+        "query": "min-width"
+      },
+      {
+        "name": "compact",
+        "value": "1200px",
+        "query": "max-width"
+      },
+      {
+        "name": "stacked",
+        "value": "1000px",
+        "query": "max-width"
+      },
+      {
+        "name": "drawer",
+        "value": "760px",
+        "query": "max-width"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main save/create action.",
+      "html": "<button class=\"ds-primary\">حفظ المشروع</button>",
+      "css": ".ds-primary{font:500 14px 'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;background:var(--brand,#176748);color:#fff;border:1px solid transparent;border-radius:8px;padding:9px 16px;min-height:42px;cursor:pointer;transition:background .18s,color .18s}.ds-primary:hover{background:#105337}.ds-primary:focus-visible{outline:3px solid #69a47a;outline-offset:3px}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Export or secondary action.",
+      "html": "<button class=\"ds-secondary\">تصدير CSV</button>",
+      "css": ".ds-secondary{font:500 14px 'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;background:var(--surface,#fff);color:var(--ink,#172a25);border:1px solid var(--line,#dce5dd);border-radius:8px;padding:9px 16px;min-height:42px;cursor:pointer;transition:background .18s}.ds-secondary:hover{background:#edf3ed}.ds-secondary:focus-visible{outline:3px solid #69a47a;outline-offset:3px}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}"
+    },
+    {
+      "name": "Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Labeled project input.",
+      "html": "<label class=\"ds-field\" dir=\"rtl\">اسم المشروع<input placeholder=\"مشروع جديد\"></label>",
+      "css": ".ds-field{display:flex;flex-direction:column;gap:6px;font:12px 'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;color:var(--ink,#172a25)}.ds-field input{font:13px 'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;color:var(--ink,#172a25);background:var(--surface,#fff);border:1px solid var(--line,#dce5dd);border-radius:8px;padding:10px 12px;caret-color:var(--brand,#176748)}.ds-field input:hover{border-color:#b5c7ba}.ds-field input:focus-visible{outline:3px solid #69a47a;outline-offset:3px}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "nav-active",
+      "description": "Selected navigation inside the forest sidebar.",
+      "html": "<nav class=\"ds-nav\" dir=\"rtl\" aria-label=\"الأقسام\"><button class=\"ds-current\" aria-current=\"page\">نظرة عامة</button><button>المشاريع</button></nav>",
+      "css": ".ds-nav{background:var(--sidebar,#102c22);padding:18px;display:grid;gap:5px;max-width:240px}.ds-nav button{font:500 14px 'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;background:transparent;color:#c2d8c9;border:0;border-radius:8px;padding:12px 15px;min-height:47px;text-align:start;cursor:pointer}.ds-nav button:hover{background:#244334}.ds-nav .ds-current,.ds-nav .ds-current:hover{background:var(--accent,#a9d8b3);color:var(--sidebar,#102c22)}.ds-nav button:focus-visible{outline:3px solid #69a47a;outline-offset:3px}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "chip",
+      "description": "Written status paired with tint.",
+      "html": "<span class=\"ds-badge\" dir=\"rtl\">قيد التنفيذ</span>",
+      "css": ".ds-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:5px;font:12px 'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;background:#e5f1e8;color:#1b6240;white-space:nowrap}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}"
+    },
+    {
+      "name": "Working Panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Flat title/content surface.",
+      "html": "<section class=\"ds-panel\" dir=\"rtl\"><h2>المشاريع الحالية</h2><p>البيانات المعروضة تجريبية.</p></section>",
+      "css": ".ds-panel{background:var(--surface,#fff);color:var(--ink,#172a25);border:1px solid var(--line,#dce5dd);border-radius:var(--radius,14px);padding:22px 24px;font-family:'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif}.ds-panel h2{font-size:17px;font-weight:600;line-height:1.6;margin:0}.ds-panel p{font-size:12px;color:var(--muted,#52655d);margin:3px 0 0}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Quiet Operations Desk",
+    "overview": "Pale limestone working surfaces sit beside deep forest navigation. Alignment, rules, and restrained mint states organize dense operational information. This is the implemented original identity; shadcn research informed hierarchy only.",
+    "keyCharacteristics": [
+      "Calm forest and limestone contrast.",
+      "Compact bilingual operational typography.",
+      "Border-led surfaces and tabular figures."
+    ],
+    "rules": [
+      {
+        "name": "The State Color Rule",
+        "body": "Pair status color with a written label; preserve explicit selected navigation contrast.",
+        "section": "neutral"
+      },
+      {
+        "name": "The Numeric Alignment Rule",
+        "body": "Use tabular numerals for amounts, totals, and metrics, retaining readable currency labels in both directions.",
+        "section": "typography"
+      },
+      {
+        "name": "The Direction Rule",
+        "body": "Use logical spacing and alignment so Arabic RTL and English LTR preserve the same hierarchy.",
+        "section": "layout"
+      }
+    ],
+    "dos": [
+      "Do preserve Arabic-first RTL and complete English layouts.",
+      "Do use borders, alignment, and spacing to group operational information.",
+      "Do keep written status labels beside color cues."
+    ],
+    "donts": [
+      "Don't introduce ornamental dashboard shadows or marketing hero treatments.",
+      "Don't replace labeled sample data with implied real customer or revenue claims."
+    ]
+  }
+}

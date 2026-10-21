@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.env
+.env.local
+.env.*.local
+.dev.vars
+.wrangler/
+*.tsbuildinfo
+worker-configuration.d.ts
+.impeccable/questions/
+qa/screenshots/capture/dom.html
+qa/screenshots/capture/scan.json

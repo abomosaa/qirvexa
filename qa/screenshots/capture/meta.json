@@ -1,0 +1,47 @@
+{
+  "target": "http://127.0.0.1:5173/",
+  "url": "http://127.0.0.1:5173/",
+  "capturedAt": "2026-10-21T20:16:46.313Z",
+  "viewports": {
+    "tablet": {
+      "size": [
+        820,
+        1180
+      ],
+      "full": "capture/shots/tablet-full.png",
+      "fold": "capture/shots/tablet-fold.png",
+      "overflowX": false
+    },
+    "mobile": {
+      "size": [
+        390,
+        844
+      ],
+      "full": "capture/shots/mobile-full.png",
+      "fold": "capture/shots/mobile-fold.png",
+      "overflowX": false
+    }
+  },
+  "console": [
+    {
+      "type": "warning",
+      "text": "The width(0) and height(0) of chart should be greater than 0,\n       please check the style of container, or the props width(100%) and height(100%),\n       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the\n       height and width."
+    },
+    {
+      "type": "warning",
+      "text": "The width(0) and height(0) of chart should be greater than 0,\n       please check the style of container, or the props width(100%) and height(100%),\n       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the\n       height and width."
+    }
+  ],
+  "errors": [],
+  "requests": {
+    "count": 30,
+    "failed": [],
+    "bytes": 16813060,
+    "types": {
+      "document": 1,
+      "script": 22,
+      "font": 6,
+      "other": 1
+    }
+  }
+}

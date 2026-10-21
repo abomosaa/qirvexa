@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "qirvexa",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-10-21",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"],
+  },
+  "ai": { "binding": "AI" },
+  "observability": { "enabled": true, "traces": { "enabled": true } },
+  "ratelimits": [
+    {
+      "name": "AI_LIMITER",
+      "namespace_id": "4201721",
+      "simple": { "limit": 5, "period": 60 },
+    },
+  ],
+}

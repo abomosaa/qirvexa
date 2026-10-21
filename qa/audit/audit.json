@@ -1,0 +1,108 @@
+{
+  "target": "http://127.0.0.1:5173/",
+  "url": "http://127.0.0.1:5173/",
+  "at": "2026-10-21T20:14:11.055Z",
+  "viewports": {
+    "mobile": {
+      "vw": 390,
+      "docW": 390,
+      "overflow": false,
+      "offenders": [],
+      "smallText": 0,
+      "tinyTargets": 4
+    },
+    "tablet": {
+      "vw": 820,
+      "docW": 820,
+      "overflow": false,
+      "offenders": [],
+      "smallText": 0,
+      "tinyTargets": 2
+    },
+    "desktop": {
+      "vw": 1440,
+      "docW": 1440,
+      "overflow": false,
+      "offenders": [],
+      "smallText": 0,
+      "tinyTargets": 2
+    }
+  },
+  "issues": {
+    "a11y": [
+      {
+        "severity": "low",
+        "msg": "No skip-to-content link",
+        "detail": "Recommended for keyboard users."
+      }
+    ],
+    "seo": [
+      {
+        "severity": "low",
+        "msg": "No canonical URL"
+      },
+      {
+        "severity": "low",
+        "msg": "No og:image",
+        "detail": "Social previews will be blank."
+      },
+      {
+        "severity": "low",
+        "msg": "No JSON-LD structured data",
+        "detail": "Add Organization/WebSite schema."
+      }
+    ],
+    "performance": [],
+    "design": [
+      {
+        "severity": "low",
+        "msg": "35 distinct colors",
+        "detail": "Consolidate to a token palette."
+      },
+      {
+        "severity": "low",
+        "msg": "7 distinct radii",
+        "detail": "10px, 7px, 8px, 4px, 50%, 14px"
+      }
+    ],
+    "responsive": []
+  },
+  "resources": {
+    "domCount": 573,
+    "scripts": 2,
+    "stylesheets": 0,
+    "thirdParty": 0,
+    "images": 0,
+    "imageBytes": 0,
+    "totalTransfer": 16820897,
+    "fonts": 6,
+    "ttfb": 6,
+    "domContentLoaded": 256,
+    "loadEvent": 257
+  },
+  "meta": {
+    "title": "Qirvexa | كيرڤكسا",
+    "desc": "Qirvexa — a bilingual operations dashboard and project brief assistant. An interactive portfolio demo.",
+    "lang": "ar",
+    "h1": 1,
+    "landmarks": 4,
+    "animatedCount": 31,
+    "imagesNoAlt": 0,
+    "decorativeAlt": 0
+  },
+  "scores": {
+    "a11y": 99,
+    "seo": 97,
+    "performance": 100,
+    "design": 98,
+    "responsive": 100
+  },
+  "overall": 99,
+  "counts": {
+    "a11y": 1,
+    "seo": 3,
+    "performance": 0,
+    "design": 2,
+    "responsive": 0
+  }
+}
