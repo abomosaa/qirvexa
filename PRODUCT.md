@@ -20,7 +20,7 @@ Show operational data clearly, manage client projects and turn a short project i
 
 ## Capabilities and Constraints
 
-Arabic RTL by default and English; projects CRUD, search, status/date filters, charts derived from actual displayed records, CSV export, client rollup, account settings, focused AI brief assistant. Synthetic seed data must be labeled. Guest changes persist only on this device. Authenticated data belongs to its user through Supabase RLS. No SMTP, purchased domain, paid inference or payment collection. Booking and native mobile are deferred.
+Arabic RTL by default and English; projects CRUD, search, status/date filters, charts derived from actual displayed records, CSV export, client rollup, account settings, focused AI brief assistant. Synthetic seed data must be labeled. Guest changes persist only on this device. Authenticated data belongs to its user through Supabase RLS. Email/password authentication plus configured Google/GitHub providers; email confirmation and recovery require verified SMTP delivery. No purchased domain, paid inference or payment collection. Booking and native mobile are deferred.
 
 ## Brand Commitments
 

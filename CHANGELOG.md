@@ -2,6 +2,9 @@
 
 ## 2026-10-22
 
+- Added bilingual email/password, signup, forgot-password and verified recovery forms. OAuth buttons follow live provider settings; public email registration/recovery stay gated until SMTP delivery is verified. / إضافة نماذج البريد وإنشاء الحساب والاستعادة باللغتين، مع ربط أزرار المزودين بإعداداتهم الفعلية وبقاء إرسال البريد محجوبًا حتى التحقق.
+- Bound password recovery to its verified owner token; a fresh review found and verified the account-switch fix. Nineteen unit tests plus isolated form and prior isolation browser packets pass. / ربط الاستعادة برمز المالك المتحقق منه وإصلاح تبديل الحساب أثناء الطلب؛ نجح 19 اختبارًا واختبارا النماذج والعزل في المتصفح.
+
 - Formatted source and configuration with pinned Prettier 3.9.10, with local and CI format checks. The post-format run passed 12 tests, the frontend build and Worker typecheck; dependency audit found zero vulnerabilities. / تنسيق المصدر والإعدادات بأداة مثبتة الإصدار مع فحص محلي وفي CI؛ نجحت الاختبارات الاثنا عشر والبناء وفحص أنواع Worker بعد التنسيق، ولم يرصد فحص الاعتماديات ثغرات.
 
 ## 2026-10-21 — Portfolio prototype / نموذج معرض الأعمال

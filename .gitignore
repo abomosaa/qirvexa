@@ -8,5 +8,5 @@ dist/
 *.tsbuildinfo
 worker-configuration.d.ts
 .impeccable/questions/
-qa/screenshots/capture/dom.html
-qa/screenshots/capture/scan.json
+qa/**/capture/dom.html
+qa/**/capture/scan.json

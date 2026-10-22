@@ -3,6 +3,7 @@ import {
   useMemo,
   useRef,
   useState,
+  useSyncExternalStore,
   type FormEvent,
   type ReactNode,
 } from "react";
@@ -23,7 +24,6 @@ import {
   Pencil,
   Trash2,
   LogOut,
-  LogIn,
   Check,
   Cloud,
   HardDrive,
@@ -46,6 +46,12 @@ import {
 } from "recharts";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "./backend";
+import AuthPanel from "./AuthPanel";
+import {
+  finishRecovery,
+  getRecoveryOwner,
+  subscribeRecovery,
+} from "./authRecovery";
 import {
   download,
   filterProjects,
@@ -164,6 +170,18 @@ export default function App() {
   const [generating, setGenerating] = useState(false);
   const [isExample, setIsExample] = useState(false);
   const [authReady, setAuthReady] = useState(!supabase);
+  const recoveryOwner = useSyncExternalStore(
+    subscribeRecovery,
+    getRecoveryOwner,
+  );
+  const recoveryActive = Boolean(session && recoveryOwner === session.user.id);
+  useEffect(() => {
+    if (recoveryOwner) {
+      setView("settings");
+      location.hash = "settings";
+      setMenu(false);
+    }
+  }, [recoveryOwner]);
   const alive = useRef(true),
     authEpoch = useRef(0),
     currentUserId = useRef<string | null>(null);
@@ -407,27 +425,11 @@ export default function App() {
   const pages = Math.max(1, Math.ceil(sorted.length / 6));
   const currentPage = Math.min(page, pages);
   const shown = sorted.slice((currentPage - 1) * 6, currentPage * 6);
-  async function login() {
-    if (!supabase || import.meta.env.VITE_GITHUB_AUTH_ENABLED !== "true") {
-      notify(
-        t(
-          "الدخول غير متاح بعد في هذه النسخة. يمكنك تجربة جميع وظائف العرض محليًا.",
-          "Sign-in is not available in this version yet. You can explore the local demo.",
-        ),
-      );
-      return;
-    }
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "github",
-      options: { redirectTo: location.origin },
-    });
-    if (error)
-      notify(
-        t(
-          "تعذر بدء تسجيل الدخول. حاول مرة أخرى.",
-          "Could not start sign-in. Please try again.",
-        ),
-      );
+  function login() {
+    navigate("settings");
+    requestAnimationFrame(() =>
+      document.getElementById("auth-heading")?.focus(),
+    );
   }
   async function logout() {
     const request = currentRequest();
@@ -1029,7 +1031,7 @@ export default function App() {
                 onClick={login}
                 disabled={!authReady}
               >
-                {t("دخول GitHub", "Sign in with GitHub")}
+                {t("تسجيل الدخول", "Sign in")}
                 <ArrowUpRight />
               </button>
             </div>
@@ -1597,16 +1599,29 @@ export default function App() {
                         </p>
                       </div>
                     </div>
-                    {session ? (
+                    {session && !recoveryActive ? (
                       <button className="secondary" onClick={logout}>
                         <LogOut />
                         {t("تسجيل الخروج", "Sign out")}
                       </button>
                     ) : (
-                      <button onClick={login} disabled={!authReady}>
-                        <LogIn />
-                        {t("المتابعة باستخدام GitHub", "Continue with GitHub")}
-                      </button>
+                      <AuthPanel
+                        key={session?.user.id ?? "guest"}
+                        ar={ar}
+                        recovery={recoveryActive}
+                        recoveryOwner={session?.user.id}
+                        onRecovered={() => {
+                          if (
+                            !session ||
+                            currentUserId.current !== session.user.id
+                          )
+                            return;
+                          finishRecovery();
+                          notify(
+                            t("تم تحديث كلمة المرور.", "Password updated."),
+                          );
+                        }}
+                      />
                     )}
                     <p className="help-text">
                       {t(

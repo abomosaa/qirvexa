@@ -1,5 +1,13 @@
 # Review / تقرير المراجعة
 
+## Authentication update — 2026-10-22 / تحديث الحسابات
+
+Implemented email/password sign-in, signup/confirmation, forgot-password, verified-owner password recovery and configured Google/GitHub actions. `VITE_EMAIL_DELIVERY_ENABLED` remains false until real delivery tests. No live Google/email round trip is claimed. / نُفذت نماذج الحسابات والمزودين، مع إبقاء بوابة البريد معطلة حتى اختبار الإرسال الحقيقي.
+
+Passed: 19 unit tests, frontend build/typecheck, Worker typecheck, isolated `qa/auth-forms.cjs`, and prior `qa/auth-isolation.cjs`. The form packet checks provider flags, spoofed recovery URL, safe errors, signup confirmation/duplicate lock, reset redirect and a fixed-owner recovery write during account switching. All browser credentials/responses are fixtures; no real user/mail/cloud writes are made. New auth captures at 390/820/1440px have no horizontal overflow. / الاختبارات معزولة دون حسابات حقيقية أو إرسال بريد، وفُحص تجاوب النماذج دون تجاوز أفقي.
+
+A fresh reviewer found that singleton `updateUser()` could read a different tab's current session. The recovery mutation now captures the verified owner's bearer before dispatch and the reviewer marked this finding resolved. Impeccable reports advisory palette/type documentation drift; its pre-existing sidecar was not repaired as a side effect of this feature. / أُصلح تبديل الحساب أثناء الاستعادة وأكد المراجع الحل. تنبيهات توثيق الألوان والخطوط إرشادية ولم يُعاد بناء ملف التصميم الجانبي ضمن هذه الميزة.
+
 <div dir="rtl" align="right">
 
 حالة 21 أكتوبر 2026: عرض منشور مع مخطط سحابي مطبّق ومختبر. اختُبر توليد موجز عربي فعلي من الواجهة المنشورة، إضافة إلى اختبارات Worker المعزولة. عزل البيانات لا يثبت اكتمال دخول GitHub؛ تفعيل مقدم الخدمة ما زال معلقًا.

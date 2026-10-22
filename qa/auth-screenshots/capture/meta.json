@@ -1,0 +1,50 @@
+{
+  "target": "http://127.0.0.1:5173/#settings",
+  "url": "http://127.0.0.1:5173/#settings",
+  "capturedAt": "2026-10-22T11:31:21.175Z",
+  "viewports": {
+    "desktop": {
+      "size": [
+        1440,
+        900
+      ],
+      "full": "capture/shots/desktop-full.png",
+      "fold": "capture/shots/desktop-fold.png",
+      "overflowX": false
+    },
+    "tablet": {
+      "size": [
+        820,
+        1180
+      ],
+      "full": "capture/shots/tablet-full.png",
+      "fold": "capture/shots/tablet-fold.png",
+      "overflowX": false
+    },
+    "mobile": {
+      "size": [
+        390,
+        844
+      ],
+      "full": "capture/shots/mobile-full.png",
+      "fold": "capture/shots/mobile-fold.png",
+      "overflowX": false
+    }
+  },
+  "console": [],
+  "errors": [],
+  "requests": {
+    "count": 34,
+    "failed": [
+      "GET https://ieyjlrgehdhsapnmvyvp.supabase.co/auth/v1/settings :: net::ERR_ABORTED"
+    ],
+    "bytes": 16928374,
+    "types": {
+      "document": 1,
+      "script": 25,
+      "font": 6,
+      "other": 1,
+      "fetch": 1
+    }
+  }
+}
