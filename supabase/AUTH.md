@@ -14,7 +14,7 @@ The source implements email/password sign-in, signup, password recovery and conf
 
 - Put only the Supabase URL and browser publishable key in ignored `.env.local`.
 - Keep `VITE_EMAIL_DELIVERY_ENABLED=false` until real confirmation/reset delivery tests pass. Set it to `true` only after that test, then rebuild and deploy. Confirm email stays ON.
-- Supabase default SMTP sends only to project-team addresses and is unsuitable for public signup. Connect a suitable custom SMTP sender. A dedicated Gmail account may use an eligible App Password entered directly into Supabase by its owner; quotas and account restrictions apply. Do not enter the account's ordinary password or share secrets in chat.
+- Supabase default SMTP sends only to project-team addresses and is unsuitable for public signup. The selected custom sender is Brevo Free (300 emails/day). Use `smtp-relay.brevo.com`, port `587`, the account's SMTP login and an SMTP key (not an API key), entered directly in Supabase by its owner. Verify the sender and transactional activation first. Free-email sender addresses can be temporarily rewritten to a Brevo domain; actual delivery must still be tested. Never share credentials in chat.
 - Configure each OAuth provider in Supabase. Google needs a Web OAuth client; use only `openid`, email and profile scopes. The callback is the project's `/auth/v1/callback` URL. The browser never receives Client Secret.
 - Allow the exact deployed origin and its `/?auth=recovery` URL in Supabase Auth redirect URLs. Use no broad wildcard just for convenience.
 - The browser reads `/auth/v1/settings` with the publishable key, exposing only configured provider actions. An unavailable settings request keeps provider actions closed and permits retry.
@@ -31,4 +31,6 @@ An SDK-verified `PASSWORD_RECOVERY` event is latched before React mounts. A URL 
 
 The existing owner-based RLS remains the data boundary for projects and briefs. No schema change or email-confirmation bypass is used for these forms.
 
-Sources: [Supabase password auth](https://supabase.com/docs/guides/auth/passwords), [custom SMTP](https://supabase.com/docs/guides/auth/auth-smtp), [Google provider](https://supabase.com/docs/guides/auth/social-login/auth-google), [Google App Passwords](https://support.google.com/accounts/answer/185833).
+اختير Brevo المجاني بحد 300 رسالة يوميًا. يبقى إرسال التسجيل والاستعادة مغلقًا حتى توثيق المرسل وربط SMTP واختبار وصول الرسالتين فعليًا؛ قد يستبدل Brevo عنوان المرسل المجاني مؤقتًا بعنوان من نطاقه.
+
+Sources: [Supabase password auth](https://supabase.com/docs/guides/auth/passwords), [custom SMTP](https://supabase.com/docs/guides/auth/auth-smtp), [Google provider](https://supabase.com/docs/guides/auth/social-login/auth-google), [Brevo SMTP](https://help.brevo.com/hc/en-us/articles/7924908994450-Send-transactional-emails-using-Brevo-SMTP), [Brevo Free limits](https://help.brevo.com/hc/en-us/articles/208580669-FAQs-What-are-the-limits-of-the-Free-plan).
