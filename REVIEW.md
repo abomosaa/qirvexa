@@ -1,6 +1,26 @@
 # Review / تقرير المراجعة
 
+## Live Google verification — 2026-10-23 / التحقق الفعلي من Google
+
+<div dir="rtl" align="right">
+
+تأكد تسجيل دخول Google فعليًا من واجهة Qirvexa وظهور مساحة العمل السحابية للحساب. بدأت المساحة فارغة دون استيراد سجلات الضيف. أُنشئ المشروع الخيالي «مشروع عرض — دخول Google» بقيمة 1,200 ريال وموعد تسليم 1 نوفمبر 2026، ثم عُدلت حالته إلى «قيد المراجعة» وبقي بعد إعادة التحميل والجلسة مسجلة. حمّل المستخدم الأمثلة أثناء الاختبار وبقي المشروع الذي أُضيف محفوظًا. لم يُسجل بريد صاحب الحساب في هذا التقرير.
+
+نجح تسجيل الخروج من Qirvexa وعادت الواجهة إلى «زائر تجريبي». أعاد البحث عن المشروع السحابي الجديد صفر نتائج في وضع الضيف. تأكد أيضًا دخول Google فعليًا في Tavoryxa بعد تصحيح عنوان العودة، وحفظ طلب سحابي تجريبي وبقاؤه بعد إعادة التحميل؛ عند الخروج ظهرت الطلبات المحلية السابقة وحدها. Google مفعّل وGitHub معطّل. بوابة البريد ما زالت false؛ تعطل إعداد Brevo عند تحقق SMS وأُجّل لحين تواصل المستخدم مع الدعم.
+
+</div>
+
+Verified through the live Qirvexa UI: real Google sign-in, an initially empty owner cloud workspace with no guest import, creation of `مشروع عرض — دخول Google` for a fictional client (1,200 SAR, due 2026-11-01), status changed to review, and persistence after reload while signed in. The user concurrently loaded samples; the newly created project remained present. No account email is recorded here.
+
+Fresh shared-configuration discovery: Tavoryxa's first callback fell back to Qirvexa. The main agent added the trailing-slash origin URL for each demo; the Supabase Auth allowlist now contains six exact URLs (the previous four plus the two slash origins). The corrected Tavoryxa Google round trip then passed: simulated cloud order `#B8290AF4` persisted after reload. On sign-out, only the prior local order `#68DA4835` remained visible, without the new cloud order. These are related store checks, not Qirvexa purchase features. See [the exact redirect entries](supabase/AUTH.md).
+
+Current provider state: Google enabled, GitHub disabled, `VITE_EMAIL_DELIVERY_ENABLED=false`. Brevo setup is blocked at SMS verification and deferred pending user contact with support; no real signup/confirmation/reset delivery is claimed. Google audience remains **Testing**. Google's [identity-only exception](https://support.google.com/cloud/answer/15549945?hl=en) removes the test-list requirement for basic name/email/profile sign-in; this does not establish brand verification or In Production status.
+
+Qirvexa logout/guest return also passed: the UI returned to Demo visitor, and searching for the newly created cloud project returned zero guest matches. Clearing that search restores access to the guest examples. Live screenshots `qirvexa-google-cloud-project.png` and `google-six-redirects.png` are retained in the workspace's research artifacts outside this repository. Real email delivery remains unverified. This was a documentation-only update; the 19 passing tests and build below are historical results, not rerun on 2026-10-23.
+
 ## Authentication update — 2026-10-22 / تحديث الحسابات
+
+Historical snapshot; the 2026-10-23 live Google evidence above supersedes its pending OAuth status. / لقطة سابقة؛ نتيجة دخول Google في 23 أكتوبر تحل محل حالة الانتظار أدناه.
 
 Implemented email/password sign-in, signup/confirmation, forgot-password, verified-owner password recovery and configured Google/GitHub actions. `VITE_EMAIL_DELIVERY_ENABLED` remains false until real delivery tests. No live Google/email round trip is claimed. / نُفذت نماذج الحسابات والمزودين، مع إبقاء بوابة البريد معطلة حتى اختبار الإرسال الحقيقي.
 

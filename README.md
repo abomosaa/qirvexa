@@ -8,13 +8,13 @@
 
 إضافة المشاريع وتعديلها وحذفها، تغيير الحالة والسداد، البحث والتصفية، تصدير CSV، ملخص العملاء ورسوم مشتقة من السجلات المعروضة. يحفظ وضع الضيف التغييرات على هذا الجهاز، ولا يرفعها تسجيل الدخول تلقائيًا.
 
-اجتازت فحوص البناء والمنطق وتجربة الضيف التحقق. طُبّق مخطط Supabase وفُحص عزل المستخدمين. نُشر التطبيق وعمل توليد AI فعلي بالعربية عبر واجهته المنشورة في 21 أكتوبر 2026. أضيفت نماذج البريد وكلمة المرور وإنشاء الحساب واستعادة الكلمة بالعربية والإنجليزية؛ يظهر Google وGitHub عند تفعيل المزود الفعلي. إرسال البريد للجمهور وOAuth الحقيقي ينتظران الإعداد الخارجي والاختبار. المثال الجاهز للذكاء الاصطناعي منفصل وموسوم بأنه مكتوب مسبقًا.
+اجتازت فحوص البناء والمنطق وتجربة الضيف التحقق. طُبّق مخطط Supabase وفُحص عزل المستخدمين. نُشر التطبيق وعمل توليد AI فعلي بالعربية عبر واجهته المنشورة في 21 أكتوبر 2026. في 23 أكتوبر تأكد تسجيل دخول Google فعلي وحفظ مشروع سحابي وتعديله وبقاؤه بعد إعادة التحميل. Google مفعّل وGitHub معطّل. نماذج البريد وكلمة المرور باللغتين موجودة؛ إنشاء الحساب واستعادة الكلمة بالبريد يظلان محجوبين، إذ تعطل إعداد Brevo عند التحقق عبر SMS وأُجّل لحين مراجعة الدعم. المثال الجاهز للذكاء الاصطناعي منفصل وموسوم بأنه مكتوب مسبقًا.
 
 </div>
 
 An Arabic-first, bilingual project dashboard with an editable brief assistant. This portfolio prototype uses fictional identity and records. Project CRUD, status/paid tracking, search/date filters, derived charts, CSV export, client rollup, settings, and saved briefs are implemented. Guest data persists on the device and is not automatically uploaded on sign-in.
 
-Supabase schema and ownership checks are verified. Public deployment and real Arabic AI generation through the published interface were verified on 2026-10-21. Email/password sign-in, signup and password recovery forms are implemented in Arabic/English. Google and optional GitHub actions appear only when the corresponding live provider is enabled. Real OAuth and public email delivery still require external setup; the prewritten AI sample is separately labeled.
+Supabase schema and ownership checks are verified. Public deployment and real Arabic AI generation through the published interface were verified on 2026-10-21. On 2026-10-23, a real Google sign-in and cloud project create/edit/reload flow were verified in Qirvexa. Google is enabled; optional GitHub is disabled. Email/password forms are implemented in Arabic/English, but public signup/reset delivery remains gated: Brevo setup is blocked at SMS verification and deferred pending support. The prewritten AI sample is separately labeled.
 
 [Live demo / العرض المباشر](https://qirvexa.qirvexa.workers.dev) · [Source / المصدر](https://github.com/abomosaa/qirvexa)
 
@@ -44,6 +44,8 @@ Copy `.env.example` to ignored `.env.local`. Set `VITE_SUPABASE_URL` and `VITE_S
 
 Email/password sign-in is available for confirmed accounts. Keep `VITE_EMAIL_DELIVERY_ENABLED=false` until custom SMTP confirmation/recovery delivery has been tested; only email-dependent signup/reset controls are gated. Email confirmation remains enabled. Google/GitHub availability comes from public Auth settings, with no frontend OAuth secrets. See [authentication setup](supabase/AUTH.md), [database setup](supabase/README.md) and [schema](supabase/schema.sql).
 
+Google's audience remains **Testing**, without a brand-verification or In Production claim. Google's [basic identity exception](https://support.google.com/cloud/answer/15549945?hl=en) permits identity-only sign-in without adding users to the test list. The shared Supabase redirect allowlist now has six exact entries, including both demos' bare and trailing-slash origins and recovery URLs. Tavoryxa's real Google sign-in and simulated cloud-order reload passed after that callback fix.
+
 The Worker uses `@cf/meta/llama-3.1-8b-instruct-fp8`, with 750 output tokens, a 2,000-character idea limit, a 12,000-byte streamed-body cap, same-origin checks, and five requests per IP per minute. Failures return explicit errors; the prewritten sample never substitutes for model output.
 
 ## Verification / التحقق
@@ -55,6 +57,8 @@ npm run build
 ```
 
 Recorded: 19 passing Vitest tests (business data, Worker boundaries and auth/recovery safeguards), browser guest CRUD/status/paid/reload/sample-save checks, mocked auth-race isolation in `qa/auth-isolation.cjs`, and form/provider/recovery scenarios in `qa/auth-forms.cjs`. Auth screens have no page overflow at 390/820/1440px. Browser auth fixtures create no real users and send no email. See [REVIEW.md](REVIEW.md) for scope and open checks.
+
+The 2026-10-23 live Google check began with an empty cloud workspace, confirming guest records were not imported. A fictional 1,200 SAR project was created, changed to review, and persisted after reload. Loading sample records concurrently preserved that project. Signing out returned to Demo visitor; searching for the new cloud project returned zero guest matches. This documentation update did not rerun the historical 19-test/build packet.
 
 ## Reuse / إعادة الاستخدام
 
