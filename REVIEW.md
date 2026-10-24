@@ -2,6 +2,8 @@
 
 ## Workspace acceptance — 2026-10-24 / قبول التوسعة
 
+Live Workers AI generated an Arabic brief from a generic fictional studio idea. The lead attached it to the same named cloud test project and verified the saved text after reload; a read-only SQL aggregate confirmed one completed task and one project-details record with a brief. Previous project/order fingerprints still matched. No pre-existing project, amount or order was modified.
+
 Public acceptance found an initial-session routing issue: a project URL stayed in the address bar but auth restoration cleared the selected project. Initial restoration now retains that project ID, while subsequent account switches still clear it; the account-isolation fixture tests both behaviors. A real Google login and cloud task create/complete/reload were verified in the existing named test project. The task persisted; old project rows remained unchanged.
 
 The final responsive packet passed 54 route/language/viewport combinations, including both project tabs. The Impeccable source detector reported zero primary findings and 116 advisories concerning palette/type-ramp documentation; this is not an empty findings array or a claim of complete visual certification. Initial chart animation was disabled so data is visible immediately and captures do not show an incomplete line.
