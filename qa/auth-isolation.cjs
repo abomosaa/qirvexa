@@ -18,8 +18,8 @@ const assert = require("node:assert/strict");
  window.__fixtures={};
  const rows=table=>({data:table==='qirvexa_projects'?(window.__fixtures[window.__owner]||[]):[],error:null});
  export const supabase={auth:{getSession:()=>wait('__initial'),onAuthStateChange:cb=>{window.__auth=(e,s)=>{window.__owner=s?.user.id||null;cb(e,s)};return{data:{subscription:{unsubscribe(){}}}}},signOut:async()=>({error:null})},from:table=>({
- select:()=>({order:()=>{const p=Promise.resolve(rows(table));p.limit=()=>p;return p}}),
- upsert:record=>{window.__projectRecord=record;return{select:()=>({single:()=>wait('__saveProject')})}},
+ select:()=>{const query={eq:()=>query,order:()=>query,range:()=>Promise.resolve(rows(table)),limit:()=>Promise.resolve(rows(table))};return query;},
+ upsert:record=>{window.__projectRecord=record;return{select:()=>({single:()=>wait(table==='qirvexa_briefs'?'__saveBrief':'__saveProject')})}},
  delete:()=>({eq:()=>wait('__deleteProject')}),
  insert:record=>{window.__insertRecord=record;return{select:()=>Array.isArray(record)?wait('__seedProjects'):{single:()=>wait('__saveBrief')}}}
  })};

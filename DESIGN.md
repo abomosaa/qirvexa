@@ -124,6 +124,12 @@ Primary buttons are forest with white text, 42px minimum height, and a darker ho
 
 Navigation is vertically stacked with mint selection. Status badges combine tinted fills and words. Charts retain labeled legends and tabular summaries. Panels use generous title insets without shadows. Native dialogs scroll within the viewport and preserve visible form labels. Control transitions last 180ms; the mobile drawer uses 200ms. Reduced motion disables transitions and shortens animation duration.
 
+## Workspace expansion — 2026-10-24 / توسعة مساحة العمل
+
+The overview pairs a compact next-action agenda with the creation-period value chart; a date/state row provides useful context. Linkable project pages use one clear title, client/value/due summary, and task/scope tabs. Both tab panels retain their fields while hidden; Home/End and arrows follow tab semantics. Navigation protects unsaved work. Client profiles use a directory/detail composition; finance separates recorded contract, marked paid and outstanding values. Mobile project tables become readable action cards, with visible edit/detail controls. Latin tabular numerals make 5 distinct from 0 in Arabic at compact sizes.
+
+<div dir="rtl" align="right">تجمع النظرة العامة المواعيد القريبة والرسم المالي في ترتيب مدمج. للمشروع صفحة مستقلة بمهام ونطاق وملاحظات، مع حماية المسودات ودعم لوحة المفاتيح. تعرض ملفات العملاء البيانات والمشاريع المرتبطة، وتتحول المشاريع إلى بطاقات عملية على الهاتف. بقيت هوية الألوان والخطوط القائمة.</div>
+
 ## Do's and Don'ts
 
 - Do preserve Arabic-first RTL and complete English layouts.

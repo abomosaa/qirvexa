@@ -24,7 +24,7 @@ const assert = require("node:assert/strict");
         resetPasswordForEmail:async(email,options)=>{window.__authCalls.push(['reset',email,options]);return{error:null}},
         signInWithOAuth:async input=>{window.__authCalls.push(['oauth',input]);return{error:null}},
         signOut:async()=>{window.__emit('SIGNED_OUT',null);return{error:null}}
-      },from:()=>({select:()=>({order:()=>{const promise=Promise.resolve({data:[],error:null});promise.limit=()=>promise;return promise;}})})};
+      },from:()=>{const result=()=>Promise.resolve({data:[],error:null});const query={select:()=>query,eq:()=>query,order:()=>query,range:result,limit:result};return query;}};
     `,
       }),
     );

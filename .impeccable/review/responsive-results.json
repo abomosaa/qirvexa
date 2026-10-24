@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "checks": 54,
+  "languages": [
+    "ar",
+    "en"
+  ],
+  "widths": [
+    390,
+    820,
+    1440
+  ],
+  "externalNetworkBlocked": true
+}

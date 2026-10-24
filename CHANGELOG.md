@@ -1,5 +1,12 @@
 # Changelog / سجل التغييرات
 
+## 2026-10-24 — Deeper workspace / مساحة عمل أعمق
+
+- Added project task CRUD, status/priority/due dates, progress, scope/notes/briefs, client profiles, deadlines and finance views; all old IDs and records preserved. / إضافة مهام وتفاصيل المشروع وملفات العملاء والمواعيد والمتابعة المالية مع حفظ السجلات السابقة.
+- Added owner-protected Supabase child tables and composite ownership references; guest storage remains separate. / إضافة جداول محمية بالملكية مع فصل حفظ الضيف عن الحساب.
+- Replaced repeated demo chrome with accurate device/account state, compact overview and mobile project cards. / تحسين الواجهة وإزالة تكرار عبارات العرض مع توضيح مكان الحفظ.
+- Mutual review found lost unsaved notes and incorrect Home/End behavior; fixed retained forms, separate dirty states and protected navigation, with regression tests. / إصلاح ضياع المسودات والتنقل بلوحة المفاتيح وإضافة فحوص تمنع عودة المشكلة.
+
 ## 2026-10-23
 
 - Verified real Google sign-in through Qirvexa and cloud project creation, edit to review, and reload persistence. The cloud workspace began empty without importing guest records; concurrently loading samples preserved the new fictional project. / تأكد دخول Google فعليًا وإنشاء مشروع سحابي وتعديل حالته وبقاؤه بعد إعادة التحميل، دون نقل بيانات الضيف تلقائيًا، مع بقاء المشروع عند تحميل الأمثلة.

@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -32,6 +33,7 @@ import {
   BriefcaseBusiness,
   Copy,
   LoaderCircle,
+  CalendarDays,
 } from "lucide-react";
 import {
   Area,
@@ -47,6 +49,15 @@ import {
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "./backend";
 import AuthPanel from "./AuthPanel";
+import { readOwnerRows, useWorkspace } from "./useWorkspace";
+import {
+  ClientDirectory,
+  FinanceView,
+  ProjectWorkspace,
+  WorkAgenda,
+  WorkspaceState,
+} from "./Workspace";
+import { emptyDetails } from "./workspaceModel";
 import {
   finishRecovery,
   getRecoveryOwner,
@@ -66,18 +77,29 @@ import {
   type Status,
 } from "./model";
 
-type View = "overview" | "projects" | "clients" | "assistant" | "settings";
+type View =
+  | "overview"
+  | "projects"
+  | "deadlines"
+  | "clients"
+  | "finance"
+  | "assistant"
+  | "settings";
 const views: View[] = [
   "overview",
   "projects",
+  "deadlines",
   "clients",
+  "finance",
   "assistant",
   "settings",
 ];
 const icons = {
   overview: LayoutDashboard,
   projects: FolderKanban,
+  deadlines: CalendarDays,
   clients: Users,
+  finance: Wallet,
   assistant: Sparkles,
   settings: Settings,
 };
@@ -142,12 +164,24 @@ export default function App() {
   const ar = lang === "ar";
   const t = (arabic: string, english: string) => (ar ? arabic : english);
   const [view, setView] = useState<View>(() =>
-    views.includes(location.hash.slice(1) as View)
-      ? (location.hash.slice(1) as View)
+    views.includes(location.hash.slice(1).split("/")[0] as View)
+      ? (location.hash.slice(1).split("/")[0] as View)
       : "overview",
   );
   const [menu, setMenu] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
+  const workspace = useWorkspace(session);
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(
+    () =>
+      location.hash.startsWith("#projects/") ? location.hash.slice(10) : null,
+  );
+  const [aiProjectId, setAiProjectId] = useState("");
+  const workspaceDirty = useRef(false);
+  const acceptedRoute = useRef(location.hash || "#overview");
+  const onWorkspaceDirty = useCallback((dirty: boolean) => {
+    workspaceDirty.current = dirty;
+  }, []);
+  const [projectLoadError, setProjectLoadError] = useState(false);
   const [projects, setProjects] = useState<Project[]>(() =>
     readLocal("qirvexa.projects.v1", sampleProjects(), isProjects),
   );
@@ -169,6 +203,7 @@ export default function App() {
   const [brief, setBrief] = useState("");
   const [generating, setGenerating] = useState(false);
   const [isExample, setIsExample] = useState(false);
+  const [activeBriefId, setActiveBriefId] = useState<string | null>(null);
   const [authReady, setAuthReady] = useState(!supabase);
   const recoveryOwner = useSyncExternalStore(
     subscribeRecovery,
@@ -196,13 +231,16 @@ export default function App() {
   const labels = {
     overview: t("نظرة عامة", "Overview"),
     projects: t("المشاريع", "Projects"),
+    deadlines: t("المواعيد", "Deadlines"),
     clients: t("العملاء", "Clients"),
+    finance: t("المتابعة المالية", "Finances"),
     assistant: t("مساعد الموجز", "Brief assistant"),
     settings: t("الحساب والإعدادات", "Account & settings"),
   };
   const money = (n: number) =>
     new Intl.NumberFormat(ar ? "ar-SA" : "en-SA", {
-      maximumFractionDigits: 0,
+      maximumFractionDigits: 2,
+      numberingSystem: "latn",
     }).format(n);
   const date = (v: string) =>
     new Intl.DateTimeFormat(ar ? "ar-SA" : "en-GB", {
@@ -219,10 +257,37 @@ export default function App() {
   function notify(s: string) {
     setMessage(s);
   }
+  function canLeaveRoute(next: string) {
+    if (next === acceptedRoute.current) return true;
+    if (
+      workspaceDirty.current &&
+      !confirm(
+        t(
+          "لديك تعديلات غير محفوظة. تجاهلها ومغادرة الصفحة؟",
+          "You have unsaved changes. Discard them and leave this page?",
+        ),
+      )
+    )
+      return false;
+    workspaceDirty.current = false;
+    acceptedRoute.current = next;
+    return true;
+  }
   function navigate(v: View) {
+    if (!canLeaveRoute(`#${v}`)) return false;
     setView(v);
+    setSelectedProjectId(null);
     location.hash = v;
     setMenu(false);
+    return true;
+  }
+  function openProject(id: string) {
+    if (!canLeaveRoute(`#projects/${id}`)) return;
+    setSelectedProjectId(id);
+    setView("projects");
+    location.hash = `projects/${id}`;
+    setMenu(false);
+    requestAnimationFrame(() => document.getElementById("main")?.focus());
   }
   useEffect(() => {
     document.documentElement.lang = lang;
@@ -235,12 +300,20 @@ export default function App() {
   }, [lang, ar]);
   useEffect(() => {
     const handler = () => {
-      const v = location.hash.slice(1) as View;
-      if (views.includes(v)) setView(v);
+      const [route, id] = location.hash.slice(1).split("/");
+      const v = route as View;
+      if (views.includes(v)) {
+        if (!canLeaveRoute(location.hash)) {
+          history.replaceState(history.state, "", acceptedRoute.current);
+          return;
+        }
+        setView(v);
+        setSelectedProjectId(v === "projects" && id ? id : null);
+      }
     };
     window.addEventListener("hashchange", handler);
     return () => window.removeEventListener("hashchange", handler);
-  }, []);
+  }, [ar]);
   useEffect(() => {
     alive.current = true;
     const client = supabase;
@@ -255,13 +328,17 @@ export default function App() {
       if (!active) return;
       const owner = next?.user.id ?? null;
       if (owner !== currentUserId.current) {
+        workspaceDirty.current = false;
         authEpoch.current++;
         currentUserId.current = owner;
         setProjects([]);
+        setSelectedProjectId(null);
+        setAiProjectId("");
         setBriefs([]);
         setBrief("");
         setPrompt("");
         setIsExample(false);
+        setActiveBriefId(null);
         setEditing(null);
         setDeleting(null);
         setBusy(false);
@@ -315,9 +392,24 @@ export default function App() {
     setEditing(null);
     setDeleting(null);
     if (!session || !supabase) {
-      setProjects(
-        readLocal("qirvexa.projects.v1", sampleProjects(), isProjects),
+      setProjectLoadError(false);
+      const localProjects = readLocal(
+        "qirvexa.projects.v1",
+        sampleProjects(),
+        isProjects,
       );
+      setProjects(localProjects);
+      // Persist first-visit sample IDs so new child tasks survive a reload.
+      // Existing storage, including an unreadable original, is never replaced here.
+      try {
+        if (localStorage.getItem("qirvexa.projects.v1") === null)
+          localStorage.setItem(
+            "qirvexa.projects.v1",
+            JSON.stringify(localProjects),
+          );
+      } catch {
+        /* Device storage is reported when a mutation is attempted. */
+      }
       setBriefs(
         readLocal(
           "qirvexa.briefs.v1",
@@ -340,13 +432,11 @@ export default function App() {
       };
     }
     setLoading(true);
+    setProjectLoadError(false);
     setProjects([]);
     setBriefs([]);
     Promise.all([
-      supabase
-        .from("qirvexa_projects")
-        .select("*")
-        .order("created_at", { ascending: false }),
+      readOwnerRows<Project>("qirvexa_projects", session.user.id),
       supabase
         .from("qirvexa_briefs")
         .select("*")
@@ -355,14 +445,15 @@ export default function App() {
     ])
       .then(([p, b]) => {
         if (!active || !isCurrent(request)) return;
-        if (p.error || b.error)
+        if (p.error || b.error) {
+          setProjectLoadError(true);
           notify(
             t(
               "تعذر تحميل بيانات حسابك. تحقق من الاتصال وأعد تحميل الصفحة.",
               "Could not load your account data. Check your connection and reload.",
             ),
           );
-        else {
+        } else {
           setProjects(p.data || []);
           setBriefs(b.data || []);
         }
@@ -371,6 +462,7 @@ export default function App() {
       .catch(() => {
         if (active && isCurrent(request)) {
           setLoading(false);
+          setProjectLoadError(true);
           notify(
             t(
               "تعذر تحميل بيانات حسابك. تحقق من الاتصال وأعد تحميل الصفحة.",
@@ -576,8 +668,6 @@ export default function App() {
     )
       return;
     setGenerating(true);
-    setIsExample(false);
-    setBrief("");
     try {
       const response = await fetch("/api/brief", {
         method: "POST",
@@ -613,6 +703,8 @@ export default function App() {
           ),
         );
       setBrief(data.brief);
+      setIsExample(false);
+      setActiveBriefId(null);
     } catch (error) {
       if (isCurrent(request))
         notify(
@@ -628,6 +720,17 @@ export default function App() {
     }
   }
   function example() {
+    if (
+      brief.trim() &&
+      !confirm(
+        t(
+          "استبدال المسودة الحالية بالمثال الجاهز؟",
+          "Replace the current draft with the prewritten sample?",
+        ),
+      )
+    )
+      return;
+    setActiveBriefId(null);
     setIsExample(true);
     setPrompt(
       t(
@@ -642,21 +745,25 @@ export default function App() {
       ),
     );
   }
-  async function saveBrief() {
+  async function saveBrief(asCopy = false) {
     const request = currentRequest();
     if (!brief.trim() || busy || (session?.user.id ?? null) !== request.owner)
       return;
     setBusy(true);
     const record: Brief = {
-      id: crypto.randomUUID(),
+      id: !asCopy && activeBriefId ? activeBriefId : crypto.randomUUID(),
       title: prompt.slice(0, 100) || t("موجز مشروع", "Project brief"),
       content: brief.slice(0, 20000),
-      created_at: new Date().toISOString(),
+      created_at:
+        !asCopy && activeBriefId
+          ? (briefs.find((b) => b.id === activeBriefId)?.created_at ??
+            new Date().toISOString())
+          : new Date().toISOString(),
     };
     if (session && supabase) {
       const { data, error } = await supabase
         .from("qirvexa_briefs")
-        .insert({ ...record, user_id: session.user.id })
+        .upsert({ ...record, user_id: session.user.id })
         .select()
         .single();
       if (!isCurrent(request)) return;
@@ -668,11 +775,16 @@ export default function App() {
           ),
         );
       else {
-        setBriefs((b) => [data, ...b]);
+        setBriefs((b) => [data, ...b.filter((item) => item.id !== data.id)]);
+        setActiveBriefId(data.id);
         notify(t("حُفظ الموجز في حسابك.", "Brief saved to your account."));
       }
     } else {
-      const next = [record, ...briefs].slice(0, 50);
+      const next = [
+        record,
+        ...briefs.filter((item) => item.id !== record.id),
+      ].slice(0, 50);
+      setActiveBriefId(record.id);
       setBriefs(next);
       saveGuest("qirvexa.briefs.v1", next);
       notify(t("حُفظ الموجز على هذا الجهاز.", "Brief saved on this device."));
@@ -701,7 +813,15 @@ export default function App() {
           <table>
             <thead>
               <tr>
-                <th>
+                <th
+                  aria-sort={
+                    sort === "name"
+                      ? asc
+                        ? "ascending"
+                        : "descending"
+                      : "none"
+                  }
+                >
                   <button
                     onClick={() => {
                       setSort("name");
@@ -713,7 +833,15 @@ export default function App() {
                   </button>
                 </th>
                 <th>{t("الحالة", "Status")}</th>
-                <th>
+                <th
+                  aria-sort={
+                    sort === "amount"
+                      ? asc
+                        ? "ascending"
+                        : "descending"
+                      : "none"
+                  }
+                >
                   <button
                     onClick={() => {
                       setSort("amount");
@@ -732,7 +860,12 @@ export default function App() {
               {shown.map((p) => (
                 <tr key={p.id}>
                   <td>
-                    <strong>{splitName(p.name, ar)}</strong>
+                    <button
+                      className="project-name-link text-button"
+                      onClick={() => openProject(p.id)}
+                    >
+                      {splitName(p.name, ar)}
+                    </button>
                     <span>{splitName(p.client, ar)}</span>
                   </td>
                   <td>
@@ -774,12 +907,63 @@ export default function App() {
             </tbody>
           </table>
         </div>
+        <div className="mobile-project-list">
+          {shown.map((p) => (
+            <article className="mobile-project" key={p.id}>
+              <div>
+                <button
+                  className="text-button project-name-link"
+                  onClick={() => openProject(p.id)}
+                >
+                  {splitName(p.name, ar)}
+                  <ArrowUpRight />
+                </button>
+                <p>{splitName(p.client, ar)}</p>
+              </div>
+              <span className={`badge ${p.status}`}>
+                {statusLabel(p.status)}
+              </span>
+              <dl>
+                <div>
+                  <dt>{t("القيمة", "Value")}</dt>
+                  <dd>
+                    {money(p.amount)} {t("ر.س", "SAR")}
+                  </dd>
+                </div>
+                <div>
+                  <dt>{t("التسليم", "Due")}</dt>
+                  <dd>{date(p.due_date)}</dd>
+                </div>
+              </dl>
+              <div className="mobile-project-actions">
+                <span>
+                  {p.paid ? t("محصل", "Marked paid") : t("غير محصل", "Unpaid")}
+                </span>
+                <button
+                  className="secondary"
+                  onClick={() => setEditing(p)}
+                  aria-label={`${t("تعديل", "Edit")} ${splitName(p.name, ar)}`}
+                >
+                  <Pencil />
+                  {t("تعديل", "Edit")}
+                </button>
+                <button
+                  className="icon-button danger"
+                  onClick={() => setDeleting(p)}
+                  aria-label={`${t("حذف", "Delete")} ${splitName(p.name, ar)}`}
+                >
+                  <Trash2 />
+                </button>
+              </div>
+            </article>
+          ))}
+        </div>
         {!shown.length && (
           <div className="empty">
             <FolderKanban />
             <h3>{t("لا توجد مشاريع هنا بعد", "No projects here yet")}</h3>
             <p>
-              {query || status !== "all"
+              {query || status !== "all" || (months > 0 && projects.length > 0)
                 ? t(
                     "عدّل البحث أو الفلاتر لعرض المزيد.",
                     "Adjust the search or filters to see more.",
@@ -789,6 +973,18 @@ export default function App() {
                     "Add your first project or load sample data.",
                   )}
             </p>
+            {!!projects.length && (
+              <button
+                className="secondary"
+                onClick={() => {
+                  setQuery("");
+                  setStatus("all");
+                  setMonths(0);
+                }}
+              >
+                {t("إزالة الفلاتر", "Clear filters")}
+              </button>
+            )}
             {!projects.length && (
               <button onClick={seed} disabled={busy}>
                 {t("تحميل بيانات مثال", "Load sample data")}
@@ -838,7 +1034,10 @@ export default function App() {
           aria-label={t("إغلاق القائمة", "Close menu")}
         />
       )}
-      <aside className={`sidebar ${menu ? "is-open" : ""}`}>
+      <aside
+        id="workspace-navigation"
+        className={`sidebar ${menu ? "is-open" : ""}`}
+      >
         <a
           href="#overview"
           className="brand"
@@ -876,15 +1075,14 @@ export default function App() {
           })}
         </nav>
         <div className="sidebar-bottom">
-          <div className="demo-note">
-            <span className="mini-rule" />
+          <div className="workspace-motto">
             <strong>
-              {t("مساحة لتجربة أفكارك", "Room to try your ideas")}
+              {t("وضوح لكل خطوة.", "Clarity for every next step.")}
             </strong>
             <p>
               {t(
-                "مشروع عرض تفاعلي. الأسماء والمبالغ المعروضة أمثلة توضيحية.",
-                "An interactive portfolio demo. Sample names and amounts are fictional.",
+                "مشاريعك، علاقاتك، والعمل الذي يستحق التركيز.",
+                "Your projects, relationships and the work that matters next.",
               )}
             </p>
           </div>
@@ -897,7 +1095,7 @@ export default function App() {
               <strong>
                 {session
                   ? t("حسابك الشخصي", "Your account")
-                  : t("زائر تجريبي", "Demo visitor")}
+                  : t("مساحة شخصية", "Personal workspace")}
               </strong>
               <small>
                 {session
@@ -916,6 +1114,8 @@ export default function App() {
               className="icon-button mobile-menu"
               onClick={() => setMenu(!menu)}
               aria-label={t("فتح القائمة", "Open navigation")}
+              aria-expanded={menu}
+              aria-controls="workspace-navigation"
             >
               <Menu />
             </button>
@@ -928,7 +1128,7 @@ export default function App() {
               {session ? <Cloud /> : <HardDrive />}
               {session
                 ? t("حفظ سحابي", "Cloud sync")
-                : t("وضع العرض", "Demo mode")}
+                : t("على هذا الجهاز", "On this device")}
             </span>
             <button
               className="language-button"
@@ -950,8 +1150,14 @@ export default function App() {
             <div>
               <h1>
                 {view === "overview"
-                  ? t("عملك، بصورة أوضح.", "Your work. In focus.")
-                  : labels[view]}
+                  ? t("مساحة لأهم أعمالك.", "Make room for your best work.")
+                  : view === "projects" && selectedProjectId
+                    ? splitName(
+                        projects.find((p) => p.id === selectedProjectId)
+                          ?.name ?? labels.projects,
+                        ar,
+                      )
+                    : labels[view]}
               </h1>
               <p>
                 {view === "overview"
@@ -974,10 +1180,20 @@ export default function App() {
                             "كل علاقة عمل، والأرقام التي تخصها.",
                             "Every client relationship, with the numbers that matter.",
                           )
-                        : t(
-                            "اختر لغتك واحفظ عملك بالطريقة التي تناسبك.",
-                            "Choose your language and how your work is saved.",
-                          )}
+                        : view === "deadlines"
+                          ? t(
+                              "المهام والتسليمات القادمة، دون أن تضيع التفاصيل.",
+                              "Your next tasks and deliveries, with the details in reach.",
+                            )
+                          : view === "finance"
+                            ? t(
+                                "تابع قيمة العمل وحالة التحصيل من سجلات المشاريع.",
+                                "Follow project value and the paid status recorded in your workspace.",
+                              )
+                            : t(
+                                "اختر لغتك واحفظ عملك بالطريقة التي تناسبك.",
+                                "Choose your language and how your work is saved.",
+                              )}
               </p>
             </div>
             {(view === "overview" || view === "projects") && (
@@ -1016,22 +1232,23 @@ export default function App() {
             </div>
           )}
           {!session && (
-            <div className="demo-banner">
-              <div>
-                <HardDrive />
-                <span>
-                  {t(
-                    "أنت في وضع العرض. التغييرات محفوظة على هذا الجهاز فقط.",
-                    "You are in demo mode. Changes are saved only on this device.",
-                  )}
-                </span>
-              </div>
+            <div className="device-storage-note">
+              <HardDrive />
+              <span>
+                {t(
+                  "عملك محفوظ على هذا الجهاز.",
+                  "Your work is saved on this device.",
+                )}
+              </span>
               <button
                 className="text-button"
                 onClick={login}
                 disabled={!authReady}
               >
-                {t("تسجيل الدخول", "Sign in")}
+                {t(
+                  "سجّل الدخول للحفظ في حسابك",
+                  "Sign in to save to your account",
+                )}
                 <ArrowUpRight />
               </button>
             </div>
@@ -1041,73 +1258,89 @@ export default function App() {
               <LoaderCircle className="spin" />
               {t("جارٍ تحميل مساحة عملك…", "Loading your workspace…")}
             </div>
+          ) : projectLoadError ? (
+            <div className="workspace-state error-state" role="alert">
+              <p>
+                {t(
+                  "تعذر تحميل مساحة العمل. أعد تحميل الصفحة؛ لن نعرض هذا الخطأ كمساحة فارغة.",
+                  "Could not load your workspace. Reload the page to retry; this is not an empty workspace.",
+                )}
+              </p>
+              <button className="secondary" onClick={() => location.reload()}>
+                {t("إعادة التحميل", "Reload")}
+              </button>
+            </div>
           ) : (
             <>
-              {(view === "overview" ||
-                view === "projects" ||
-                view === "clients") && (
-                <div className="filters">
-                  <label className="search">
-                    <Search />
-                    <span className="sr-only">
-                      {t("ابحث عن مشروع أو عميل", "Search projects or clients")}
-                    </span>
-                    <input
-                      value={query}
-                      onChange={(e) => setQuery(e.target.value)}
-                      placeholder={t(
-                        "ابحث عن مشروع أو عميل…",
-                        "Search projects or clients…",
-                      )}
-                    />
-                  </label>
-                  <label>
-                    <span className="sr-only">
-                      {t("تصفية حسب الحالة", "Filter by status")}
-                    </span>
-                    <select
-                      value={status}
-                      onChange={(e) => setStatus(e.target.value)}
-                    >
-                      <option value="all">
-                        {t("كل الحالات", "All statuses")}
-                      </option>
-                      {(["active", "review", "done"] as const).map((s) => (
-                        <option value={s} key={s}>
-                          {statusLabel(s)}
+              {(view === "overview" || view === "projects") &&
+                !selectedProjectId && (
+                  <div className="filters">
+                    <label className="search">
+                      <Search />
+                      <span className="sr-only">
+                        {t(
+                          "ابحث عن مشروع أو عميل",
+                          "Search projects or clients",
+                        )}
+                      </span>
+                      <input
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        placeholder={t(
+                          "ابحث عن مشروع أو عميل…",
+                          "Search projects or clients…",
+                        )}
+                      />
+                    </label>
+                    <label>
+                      <span className="sr-only">
+                        {t("تصفية حسب الحالة", "Filter by status")}
+                      </span>
+                      <select
+                        value={status}
+                        onChange={(e) => setStatus(e.target.value)}
+                      >
+                        <option value="all">
+                          {t("كل الحالات", "All statuses")}
                         </option>
-                      ))}
-                    </select>
-                  </label>
-                  <label>
-                    <span className="sr-only">
-                      {t("الفترة الزمنية", "Date range")}
-                    </span>
-                    <select
-                      value={months}
-                      onChange={(e) => setMonths(Number(e.target.value))}
-                    >
-                      <option value="6">
-                        {t("آخر 6 أشهر", "Last 6 months")}
-                      </option>
-                      <option value="3">
-                        {t("آخر 3 أشهر", "Last 3 months")}
-                      </option>
-                      <option value="1">{t("هذا الشهر", "This month")}</option>
-                      <option value="0">{t("كل الفترات", "All time")}</option>
-                    </select>
-                  </label>
-                </div>
-              )}
+                        {(["active", "review", "done"] as const).map((s) => (
+                          <option value={s} key={s}>
+                            {statusLabel(s)}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label>
+                      <span className="sr-only">
+                        {t("الفترة الزمنية", "Date range")}
+                      </span>
+                      <select
+                        value={months}
+                        onChange={(e) => setMonths(Number(e.target.value))}
+                      >
+                        <option value="6">
+                          {t("آخر 6 أشهر", "Last 6 months")}
+                        </option>
+                        <option value="3">
+                          {t("آخر 3 أشهر", "Last 3 months")}
+                        </option>
+                        <option value="1">
+                          {t("هذا الشهر", "This month")}
+                        </option>
+                        <option value="0">{t("كل الفترات", "All time")}</option>
+                      </select>
+                    </label>
+                  </div>
+                )}
               {view === "overview" && (
                 <>
                   <section
-                    className="metrics"
+                    className="metrics overview-metrics"
                     aria-label={t("ملخص الأرقام", "Key metrics")}
                   >
                     {[
                       {
-                        label: t("الإيراد المحصّل", "Collected revenue"),
+                        label: t("معلّم بالتحصيل", "Marked paid"),
                         value: money(stats.revenue),
                         suffix: t("ر.س", "SAR"),
                         icon: Wallet,
@@ -1151,15 +1384,54 @@ export default function App() {
                       </article>
                     ))}
                   </section>
-                  <div className="chart-grid">
+                  <WorkspaceState store={workspace} ar={ar} />
+                  <div className="overview-context">
+                    <span>
+                      {new Intl.DateTimeFormat(ar ? "ar-SA-u-nu-latn" : "en", {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long",
+                        calendar: "gregory",
+                        timeZone: "Asia/Riyadh",
+                      }).format(new Date())}
+                    </span>
+                    <div>
+                      {counts.map((c) => (
+                        <span key={c.name}>
+                          <i style={{ background: c.fill }} />
+                          {c.name} <strong>{c.count}</strong>
+                        </span>
+                      ))}
+                    </div>
+                    <button
+                      className="text-button"
+                      onClick={() => navigate("deadlines")}
+                    >
+                      {t("كل المواعيد", "All deadlines")}
+                      <ArrowUpRight />
+                    </button>
+                  </div>
+                  <div className="overview-work-grid">
+                    <WorkAgenda
+                      ar={ar}
+                      projects={filtered}
+                      store={workspace}
+                      openProject={openProject}
+                      compact
+                    />
                     <section className="panel chart-panel">
                       <div className="panel-title">
                         <div>
-                          <h2>{t("حركة الإيرادات", "Revenue, over time")}</h2>
+                          <h2>
+                            {t(
+                              "قيمة المشاريع عبر الأشهر",
+                              "Project value by creation month",
+                            )}
+                          </h2>
                           <p>
                             {t(
-                              "قيم المشاريع والمبالغ المحصّلة خلال آخر 6 أشهر",
-                              "Project value and collected amounts over the last 6 months",
+                              "آخر 6 أشهر حسب تاريخ إنشاء المشروع، وليست تواريخ تحصيل الدفعات",
+                              "Last 6 months by project creation date, not payment receipt date",
                             )}
                           </p>
                         </div>
@@ -1170,7 +1442,7 @@ export default function App() {
                           </span>
                           <span>
                             <i />
-                            {t("المحصّل", "Collected")}
+                            {t("معلّم بالتحصيل", "Marked paid")}
                           </span>
                         </div>
                       </div>
@@ -1215,6 +1487,7 @@ export default function App() {
                               }}
                             />
                             <Area
+                              isAnimationActive={false}
                               type="monotone"
                               dataKey="total"
                               stroke="#9cc9a5"
@@ -1222,6 +1495,7 @@ export default function App() {
                               strokeWidth={2}
                             />
                             <Area
+                              isAnimationActive={false}
                               type="monotone"
                               dataKey="paid"
                               stroke="#176748"
@@ -1240,63 +1514,6 @@ export default function App() {
                         </span>
                         <ArrowUpRight />
                       </div>
-                    </section>
-                    <section className="panel status-panel">
-                      <div className="panel-title">
-                        <div>
-                          <h2>{t("حالة العمل", "Work in motion")}</h2>
-                          <p>
-                            {t(
-                              "أين تقف مشاريعك الآن",
-                              "Where your projects stand",
-                            )}
-                          </p>
-                        </div>
-                        <FolderKanban />
-                      </div>
-                      <div
-                        className="status-chart"
-                        dir="ltr"
-                        role="img"
-                        aria-label={counts
-                          .map((c) => `${c.name}: ${c.count}`)
-                          .join(", ")}
-                      >
-                        <ResponsiveContainer width="100%" height="100%">
-                          <BarChart
-                            data={counts}
-                            layout="vertical"
-                            margin={{ top: 0, right: 25, left: 15, bottom: 0 }}
-                          >
-                            <XAxis type="number" hide allowDecimals={false} />
-                            <YAxis
-                              type="category"
-                              dataKey="name"
-                              axisLine={false}
-                              tickLine={false}
-                              width={100}
-                              tick={{ fill: "#172a25", fontSize: 12 }}
-                            />
-                            <Bar
-                              dataKey="count"
-                              radius={[0, 4, 4, 0]}
-                              barSize={22}
-                              label={{ position: "right", fill: "#172a25" }}
-                            />
-                          </BarChart>
-                        </ResponsiveContainer>
-                      </div>
-                      <div className="status-total">
-                        <span>{t("إجمالي المشاريع", "Total projects")}</span>
-                        <strong>{filtered.length}</strong>
-                      </div>
-                      <button
-                        className="text-button"
-                        onClick={() => navigate("projects")}
-                      >
-                        {t("انتقل إلى المشاريع", "View all projects")}
-                        <ArrowUpRight />
-                      </button>
                     </section>
                   </div>
                   <section className="assistant-strip">
@@ -1328,73 +1545,80 @@ export default function App() {
                   {table()}
                 </>
               )}
-              {view === "projects" && table()}
+              {view === "projects" && !selectedProjectId && table()}
+              {view === "projects" &&
+                selectedProjectId &&
+                (projects.find((p) => p.id === selectedProjectId) ? (
+                  <ProjectWorkspace
+                    key={`${session?.user.id ?? "guest"}-${selectedProjectId}`}
+                    project={projects.find((p) => p.id === selectedProjectId)!}
+                    ar={ar}
+                    store={workspace}
+                    onDirtyChange={onWorkspaceDirty}
+                    onBack={() => navigate("projects")}
+                    onEdit={() =>
+                      setEditing(
+                        projects.find((p) => p.id === selectedProjectId)!,
+                      )
+                    }
+                    onAI={() => {
+                      const p = projects.find(
+                        (p) => p.id === selectedProjectId,
+                      )!;
+                      const d = workspace.details.find(
+                        (d) => d.project_id === p.id,
+                      );
+                      if (!navigate("assistant")) return;
+                      setAiProjectId(p.id);
+                      setPrompt(
+                        `${splitName(p.name, ar)}\n${d?.description ?? ""}`,
+                      );
+                    }}
+                  />
+                ) : (
+                  <section className="panel workspace-empty">
+                    <h2>
+                      {t(
+                        "المشروع غير متاح في مساحة العمل الحالية",
+                        "This project is not in the current workspace",
+                      )}
+                    </h2>
+                    <button
+                      className="secondary"
+                      onClick={() => navigate("projects")}
+                    >
+                      {t("كل المشاريع", "All projects")}
+                    </button>
+                  </section>
+                ))}
+              {view === "deadlines" && (
+                <>
+                  <WorkspaceState store={workspace} ar={ar} />
+                  <WorkAgenda
+                    key={session?.user.id ?? "guest"}
+                    ar={ar}
+                    projects={projects}
+                    store={workspace}
+                    openProject={openProject}
+                  />
+                </>
+              )}
+              {view === "finance" && (
+                <FinanceView
+                  ar={ar}
+                  projects={projects}
+                  openProject={openProject}
+                />
+              )}
               {view === "clients" && (
-                <section className="panel">
-                  <div className="panel-title">
-                    <h2>{t("دليل العملاء", "Client directory")}</h2>
-                    <span>
-                      {stats.clients} {t("عملاء", "clients")}
-                    </span>
-                  </div>
-                  <div className="client-grid">
-                    {[...new Set(filtered.map((p) => p.client))].map(
-                      (client, i) => {
-                        const p = filtered.filter((x) => x.client === client);
-                        return (
-                          <article key={client}>
-                            <span className={`client-avatar tone-${i % 3}`}>
-                              {splitName(client, ar).slice(0, 1)}
-                            </span>
-                            <h3>{splitName(client, ar)}</h3>
-                            <span>
-                              {p.length} {t("مشاريع", "projects")}
-                            </span>
-                            <dl>
-                              <div>
-                                <dt>{t("قيمة المشاريع", "Project value")}</dt>
-                                <dd>
-                                  {money(p.reduce((s, x) => s + x.amount, 0))}{" "}
-                                  {t("ر.س", "SAR")}
-                                </dd>
-                              </div>
-                              <div>
-                                <dt>{t("قيد العمل", "Open")}</dt>
-                                <dd>
-                                  {p.filter((x) => x.status !== "done").length}
-                                </dd>
-                              </div>
-                            </dl>
-                            <button
-                              className="text-button"
-                              onClick={() => {
-                                setQuery(client);
-                                navigate("projects");
-                              }}
-                            >
-                              {t("عرض المشاريع", "View projects")}
-                              <ArrowUpRight />
-                            </button>
-                          </article>
-                        );
-                      },
-                    )}
-                  </div>
-                  {!filtered.length && (
-                    <div className="empty">
-                      <Users />
-                      <h3>
-                        {t("لا يوجد عملاء مطابقون", "No matching clients")}
-                      </h3>
-                      <p>
-                        {t(
-                          "يظهر العملاء تلقائيًا من مشاريعك.",
-                          "Clients are derived from your project records.",
-                        )}
-                      </p>
-                    </div>
-                  )}
-                </section>
+                <ClientDirectory
+                  key={session?.user.id ?? "guest"}
+                  ar={ar}
+                  projects={projects}
+                  store={workspace}
+                  openProject={openProject}
+                  onDirtyChange={onWorkspaceDirty}
+                />
               )}
               {view === "assistant" && (
                 <>
@@ -1409,6 +1633,26 @@ export default function App() {
                         </h2>
                         <Sparkles />
                       </div>
+                      <label className="ai-project-choice">
+                        {t(
+                          "اربط الموجز بمشروع (اختياري)",
+                          "Link this brief to a project (optional)",
+                        )}
+                        <select
+                          value={aiProjectId}
+                          disabled={generating}
+                          onChange={(e) => setAiProjectId(e.target.value)}
+                        >
+                          <option value="">
+                            {t("موجز مستقل", "Standalone brief")}
+                          </option>
+                          {projects.map((p) => (
+                            <option key={p.id} value={p.id}>
+                              {splitName(p.name, ar)}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
                       <label htmlFor="idea">
                         {t(
                           "صف الفكرة والجمهور والوظيفة الأساسية",
@@ -1417,6 +1661,7 @@ export default function App() {
                       </label>
                       <textarea
                         id="idea"
+                        disabled={generating}
                         value={prompt}
                         onChange={(e) => setPrompt(e.target.value)}
                         maxLength={2000}
@@ -1428,7 +1673,11 @@ export default function App() {
                       />
                       <div className="field-meta">
                         <span>{prompt.length} / 2000</span>
-                        <button className="text-button" onClick={example}>
+                        <button
+                          className="text-button"
+                          onClick={example}
+                          disabled={generating}
+                        >
                           {t("افتح مثالًا جاهزًا", "Open a sample")}
                         </button>
                       </div>
@@ -1478,10 +1727,21 @@ export default function App() {
                             rows={17}
                           />
                           <div className="brief-actions">
-                            <button onClick={saveBrief} disabled={busy}>
+                            <button onClick={() => saveBrief()} disabled={busy}>
                               <Check />
-                              {t("حفظ الموجز", "Save brief")}
+                              {activeBriefId
+                                ? t("حفظ التعديلات", "Save changes")
+                                : t("حفظ الموجز", "Save brief")}
                             </button>
+                            {activeBriefId && (
+                              <button
+                                className="secondary"
+                                onClick={() => saveBrief(true)}
+                                disabled={busy}
+                              >
+                                {t("حفظ نسخة", "Save a copy")}
+                              </button>
+                            )}
                             <button
                               className="secondary"
                               onClick={() =>
@@ -1511,6 +1771,54 @@ export default function App() {
                               <Copy />
                             </button>
                           </div>
+                          {aiProjectId && (
+                            <div className="ai-attach">
+                              <button
+                                className="secondary"
+                                disabled={
+                                  workspace.saving ||
+                                  workspace.loading ||
+                                  workspace.error
+                                }
+                                onClick={async () => {
+                                  const request = currentRequest();
+                                  const details =
+                                    workspace.details.find(
+                                      (d) => d.project_id === aiProjectId,
+                                    ) ?? emptyDetails(aiProjectId);
+                                  const ok = await workspace.saveDetails({
+                                    ...details,
+                                    brief,
+                                    updated_at: new Date().toISOString(),
+                                  });
+                                  if (isCurrent(request))
+                                    notify(
+                                      ok
+                                        ? t(
+                                            "رُبط الموجز بالمشروع.",
+                                            "Brief attached to the project.",
+                                          )
+                                        : t(
+                                            "لم يُربط الموجز. أعد المحاولة.",
+                                            "Brief was not attached. Retry.",
+                                          ),
+                                    );
+                                }}
+                              >
+                                <Check />
+                                {t(
+                                  "ربط الموجز بالمشروع",
+                                  "Attach brief to project",
+                                )}
+                              </button>
+                              <p>
+                                {t(
+                                  "يستبدل موجز المشروع بعد مراجعتك، دون تعديل المهام أو المبالغ.",
+                                  "Replaces the project brief after your review; tasks and amounts stay unchanged.",
+                                )}
+                              </p>
+                            </div>
+                          )}
                         </>
                       ) : (
                         <div className="empty brief-empty">
@@ -1546,6 +1854,7 @@ export default function App() {
                               setPrompt(b.title);
                               setBrief(b.content);
                               setIsExample(false);
+                              setActiveBriefId(b.id);
                               window.scrollTo({ top: 0, behavior: "smooth" });
                             }}
                           >
@@ -1584,7 +1893,7 @@ export default function App() {
                       <div>
                         <h3>
                           {session?.user.email ||
-                            t("زائر تجريبي", "Demo visitor")}
+                            t("مساحة على هذا الجهاز", "Device workspace")}
                         </h3>
                         <p>
                           {session
@@ -1593,8 +1902,8 @@ export default function App() {
                                 "Projects and briefs are saved in your account.",
                               )
                             : t(
-                                "جرّب التطبيق دون تسجيل. بيانات العرض محفوظة في متصفحك.",
-                                "Explore without signing in. Demo data is saved in this browser.",
+                                "مشاريعك ومهامك محفوظة في هذا المتصفح. سجّل الدخول للحفظ في حساب مستقل.",
+                                "Projects and tasks are stored in this browser. Sign in for a separate account workspace.",
                               )}
                         </p>
                       </div>
@@ -1687,10 +1996,7 @@ export default function App() {
           <footer className="page-footer">
             <span>Qirvexa © {new Date().getFullYear()}</span>
             <span>
-              {t(
-                "مشروع عرض · صُمم ليُبنى عليه",
-                "Portfolio demo · Made to build on",
-              )}
+              {t("وضوح من الفكرة إلى التسليم", "Clarity from idea to delivery")}
             </span>
           </footer>
         </main>
@@ -1722,10 +2028,21 @@ export default function App() {
                 {t("العميل", "Client")}
                 <input
                   name="client"
+                  list="project-client-names"
                   required
                   maxLength={100}
                   defaultValue={editing === "new" ? "" : editing.client}
                 />
+                <datalist id="project-client-names">
+                  {[
+                    ...new Set([
+                      ...projects.map((p) => p.client),
+                      ...workspace.clients.map((c) => c.name),
+                    ]),
+                  ].map((name) => (
+                    <option key={name} value={name} />
+                  ))}
+                </datalist>
               </label>
               <label>
                 {t("القيمة بالريال", "Amount in SAR")}

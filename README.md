@@ -1,5 +1,9 @@
 # Qirvexa
 
+<div dir="rtl" align="right">مساحة لإدارة المشاريع والمهام والعملاء والمواعيد، مع متابعة القيم والمدفوع والمستحق ومساعد ذكي للموجزات. صفحات المشاريع قابلة للمشاركة كرابط داخل مساحة الحساب، وبيانات كل حساب خاصة به. الضيف يحفظ على جهازه. راجع سجل التغييرات والمراجعة لتفاصيل توسعة 24 أكتوبر 2026.</div>
+
+A bilingual project workspace with tasks, client profiles, deadlines, recorded-value finances and AI briefs. Per-project deep links resolve within the current owner's workspace; they do not expose private records publicly. Guest state is device-local. See CHANGELOG and REVIEW for the 2026-10-24 upgrade and verification.
+
 [![Validate demo](https://github.com/abomosaa/qirvexa/actions/workflows/ci.yml/badge.svg)](https://github.com/abomosaa/qirvexa/actions/workflows/ci.yml)
 
 <div dir="rtl" align="right">

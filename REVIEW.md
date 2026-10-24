@@ -1,5 +1,17 @@
 # Review / تقرير المراجعة
 
+## Workspace acceptance — 2026-10-24 / قبول التوسعة
+
+The final responsive packet passed 54 route/language/viewport combinations, including both project tabs. The Impeccable source detector reported zero primary findings and 116 advisories concerning palette/type-ramp documentation; this is not an empty findings array or a claim of complete visual certification. Initial chart animation was disabled so data is visible immediately and captures do not show an incomplete line.
+
+25 source tests and production build passed. Isolated browser packets passed task create/edit/complete, project details and client persistence, stable parent IDs, finance/deadline navigation, new task account-switch isolation, unsaved draft retention/canceled page+AI+hash/client navigation, Home/End, existing authentication races, forms and real-SDK PKCE recovery. Arabic/English layout checks include 390/820/1440px. These fixture runs make no live writes.
+
+The independent store author reproduced loss of an unsaved scope draft and incorrect Home/End behavior. The main agent completed retained panels, stable empty-details identity, independent task/details dirty states, guarded page/client navigation and a dedicated `qa/workspace-navigation.cjs` regression. All targeted checks passed afterward. Root manually verified task completion/reload in a local guest browser too.
+
+Root applied the additive `qirvexa_workspace_depth` migration and passed seven transaction-rolled-back ownership/integrity assertions. Existing 14 projects, one store order and eight product rows retained identical fingerprints; new tables had no residual test rows. No anonymous SELECT or authenticated TRUNCATE grants on the new tables. The existing Auth leaked-password warning remains; email delivery is still deferred. Cloud frontend acceptance is recorded after deployment separately.
+
+<div dir="rtl" align="right">نجح 25 اختبارًا والبناء وفحوص المتصفح للمشاريع والمهام والعملاء والحسابات والمسودات ولوحة المفاتيح. أصلح الوكيل الرئيسي فقدان المسودات الذي كشفه وكيل المتجر وأعاد الاختبارات. نجحت فحوص الملكية في قاعدة البيانات مع إلغاء بيانات الاختبار؛ بقيت السجلات السابقة كما هي. لا تعني الفحوص المحلية وحدها التحقق من النسخة المنشورة؛ يضاف دليل النشر مستقلًا.</div>
+
 ## Live Google verification — 2026-10-23 / التحقق الفعلي من Google
 
 <div dir="rtl" align="right">
