@@ -2,6 +2,8 @@
 
 ## Workspace acceptance — 2026-10-24 / قبول التوسعة
 
+Public acceptance found an initial-session routing issue: a project URL stayed in the address bar but auth restoration cleared the selected project. Initial restoration now retains that project ID, while subsequent account switches still clear it; the account-isolation fixture tests both behaviors. A real Google login and cloud task create/complete/reload were verified in the existing named test project. The task persisted; old project rows remained unchanged.
+
 The final responsive packet passed 54 route/language/viewport combinations, including both project tabs. The Impeccable source detector reported zero primary findings and 116 advisories concerning palette/type-ramp documentation; this is not an empty findings array or a claim of complete visual certification. Initial chart animation was disabled so data is visible immediately and captures do not show an incomplete line.
 
 25 source tests and production build passed. Isolated browser packets passed task create/edit/complete, project details and client persistence, stable parent IDs, finance/deadline navigation, new task account-switch isolation, unsaved draft retention/canceled page+AI+hash/client navigation, Home/End, existing authentication races, forms and real-SDK PKCE recovery. Arabic/English layout checks include 390/820/1440px. These fixture runs make no live writes.

@@ -25,8 +25,19 @@ const assert = require("node:assert/strict");
     `,
       }),
     );
-    await page.goto(process.env.BASE_URL || "http://127.0.0.1:5173");
+    await page.goto(
+      (process.env.BASE_URL || "http://127.0.0.1:5173") +
+        "/#projects/project-A",
+    );
     await page.getByRole("button", { name: "English", exact: true }).click();
+    await page.locator(".project-summary").waitFor();
+    assert.equal(
+      await page
+        .getByRole("heading", { name: "Project A", exact: true })
+        .count(),
+      1,
+      "initial account restoration preserves an owned project deep link",
+    );
     const open = async (id) => {
       await page
         .locator("aside nav")

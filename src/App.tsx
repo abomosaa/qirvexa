@@ -220,6 +220,7 @@ export default function App() {
   const alive = useRef(true),
     authEpoch = useRef(0),
     currentUserId = useRef<string | null>(null);
+  const identityResolved = useRef(false);
   const currentRequest = () => ({
     epoch: authEpoch.current,
     owner: currentUserId.current,
@@ -327,12 +328,19 @@ export default function App() {
     function applySession(next: Session | null) {
       if (!active) return;
       const owner = next?.user.id ?? null;
+      const restoreProject =
+        !identityResolved.current &&
+        owner &&
+        location.hash.startsWith("#projects/")
+          ? location.hash.slice(10)
+          : null;
+      identityResolved.current = true;
       if (owner !== currentUserId.current) {
         workspaceDirty.current = false;
         authEpoch.current++;
         currentUserId.current = owner;
         setProjects([]);
-        setSelectedProjectId(null);
+        setSelectedProjectId(restoreProject);
         setAiProjectId("");
         setBriefs([]);
         setBrief("");
