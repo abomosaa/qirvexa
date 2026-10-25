@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "captures": [
+    "dashboard-ar-390",
+    "dashboard-ar-820",
+    "dashboard-ar-1440",
+    "dashboard-en-390",
+    "dashboard-en-820",
+    "dashboard-en-1440"
+  ],
+  "periodFiltering": true,
+  "globalSearch": true,
+  "globalSearchRespectsUnsavedDraft": true,
+  "reducedMotion": true,
+  "drawerClose": true,
+  "externalNetworkBlocked": true
+}

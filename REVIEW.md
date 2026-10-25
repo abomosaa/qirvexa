@@ -1,5 +1,21 @@
 # Review / تقرير المراجعة
 
+## Dashboard redesign acceptance — 2026-10-25 / قبول تصميم اللوحة
+
+The dashboard now uses a compact forest sidebar and sticky top bar, readable independent summaries, a value/marked-paid chart with working period controls, a status breakdown, next-action agenda, client-value ranking and a denser project table with actual task completion. All displayed totals come from filtered project records. “Marked paid” remains a manually stored status, and the chart groups projects by creation month rather than payment receipt date. The guest notice explicitly identifies the fictional sample data and device-only storage.
+
+Validated locally: production build; 25 unit tests; 54 route/language/viewport checks; existing task/project-details/client CRUD and persistence fixture; and `qa/dashboard-redesign.cjs`. The latter checks period counts against actual records, finance/client summary destinations, global project search, cancellation of navigation with unsaved scope text, mobile drawer close in both languages, normal/reduced motion, label/control sizes and delivery-badge contrast. External network requests are blocked and browser data is isolated; these checks do not make live account or database writes. The root also inspected the running Arabic dashboard through the browser.
+
+The final settled screenshot matrix is `.impeccable/review/dashboard-{ar,en}-{390,820,1440}.png` with matching `-viewport.png` captures. New dashboard secondary labels are at least 12px; action areas are at least 32px. A first external audit found a 4.37:1 neutral delivery badge and small labels; both were corrected and the computed-style regression now requires at least 4.5:1 for that badge. Tables retain contained horizontal scrolling at intermediate widths. The source detector ran once and reported advisory token differences against the earlier design documentation; the final design documents record the new system. The production build retains its existing large JavaScript chunk warning.
+
+<div dir="rtl" align="right">
+
+أُعيد ترتيب اللوحة بقائمة جانبية وترويسة ثابتة وملخصات واضحة ورسم مالي وحالات المشاريع والمواعيد والعملاء وجدول مهام عملي. جميع القيم مشتقة من السجلات المصفّاة، وحالة التحصيل يدوية وليست دليل دفع بنكي. يوضح وضع الضيف خيالية بيانات المثال والحفظ المحلي.
+
+نجح البناء و25 اختبارًا و54 فحصًا للمسارات واللغتين وثلاثة أحجام، واختبارات البحث والفترات والتنقل وحماية المسودات وتقليل الحركة. فُحصت مساحات الأزرار وحجم النص والتباين بعد إصلاح ملاحظات المراجعة. الاختبارات معزولة ولا تعدّل البيانات الحية، ولم يُختبر دخول OAuth أو توليد AI حي مجددًا ضمن هذا التغيير.
+
+</div>
+
 ## Workspace acceptance — 2026-10-24 / قبول التوسعة
 
 Live Workers AI generated an Arabic brief from a generic fictional studio idea. The lead attached it to the same named cloud test project and verified the saved text after reload; a read-only SQL aggregate confirmed one completed task and one project-details record with a brief. Previous project/order fingerprints still matched. No pre-existing project, amount or order was modified.

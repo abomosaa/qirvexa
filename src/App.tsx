@@ -30,22 +30,10 @@ import {
   HardDrive,
   Leaf,
   Wallet,
-  BriefcaseBusiness,
   Copy,
   LoaderCircle,
   CalendarDays,
 } from "lucide-react";
-import {
-  Area,
-  AreaChart,
-  Bar,
-  BarChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "./backend";
 import AuthPanel from "./AuthPanel";
@@ -57,7 +45,8 @@ import {
   WorkAgenda,
   WorkspaceState,
 } from "./Workspace";
-import { emptyDetails } from "./workspaceModel";
+import { emptyDetails, taskProgress } from "./workspaceModel";
+import Dashboard from "./Dashboard";
 import {
   finishRecovery,
   getRecoveryOwner,
@@ -67,10 +56,8 @@ import {
   download,
   filterProjects,
   isProjects,
-  metrics,
   projectsCSV,
   readLocal,
-  revenueSeries,
   sampleProjects,
   type Brief,
   type Project,
@@ -514,13 +501,6 @@ export default function App() {
       }),
     [filtered, sort, asc],
   );
-  const stats = metrics(filtered);
-  const series = revenueSeries(filtered, ar ? "ar-SA" : "en-GB");
-  const counts = (["active", "review", "done"] as const).map((s) => ({
-    name: statusLabel(s),
-    count: filtered.filter((p) => p.status === s).length,
-    fill: s === "active" ? "#176748" : s === "review" ? "#ba8730" : "#9cc9a5",
-  }));
   useEffect(() => setPage(1), [query, status, months]);
   const pages = Math.max(1, Math.ceil(sorted.length / 6));
   const currentPage = Math.min(page, pages);
@@ -804,7 +784,10 @@ export default function App() {
       <section className="panel project-panel">
         <div className="panel-title">
           <div>
-            <h2>{t("المشاريع", "Projects")}</h2>
+            <h2>
+              {t("المشاريع", "Projects")}{" "}
+              <span className="section-count">{filtered.length}</span>
+            </h2>
             <p>
               {t(
                 "تفاصيل العمل، في مكان واحد.",
@@ -860,6 +843,7 @@ export default function App() {
                     <ArrowUpRight />
                   </button>
                 </th>
+                <th>{t("إنجاز المهام", "Task progress")}</th>
                 <th>{t("التسليم", "Due")}</th>
                 <th>{t("الإجراءات", "Actions")}</th>
               </tr>
@@ -868,6 +852,12 @@ export default function App() {
               {shown.map((p) => (
                 <tr key={p.id}>
                   <td>
+                    <span
+                      className={`project-type-mark ${p.category}`}
+                      aria-hidden="true"
+                    >
+                      <FolderKanban />
+                    </span>
                     <button
                       className="project-name-link text-button"
                       onClick={() => openProject(p.id)}
@@ -891,7 +881,42 @@ export default function App() {
                         : t("غير محصل", "Unpaid")}
                     </span>
                   </td>
-                  <td>{date(p.due_date)}</td>
+                  <td>
+                    {(() => {
+                      const progress = taskProgress(
+                        workspace.tasks.filter(
+                          (task) => task.project_id === p.id,
+                        ),
+                      );
+                      return progress.total ? (
+                        <div className="table-task-progress">
+                          <span>
+                            {progress.done} / {progress.total}
+                            <strong>{progress.percent}%</strong>
+                          </span>
+                          <progress
+                            value={progress.done}
+                            max={progress.total}
+                            aria-label={`${t("إنجاز مهام", "Task progress for")} ${splitName(p.name, ar)}`}
+                          />
+                        </div>
+                      ) : (
+                        <button
+                          className="text-button add-tasks"
+                          onClick={() => openProject(p.id)}
+                        >
+                          {t("أضف مهامًا", "Add tasks")}
+                          <Plus />
+                        </button>
+                      );
+                    })()}
+                  </td>
+                  <td>
+                    <span className="table-date">
+                      <CalendarDays />
+                      {date(p.due_date)}
+                    </span>
+                  </td>
                   <td>
                     <div className="row-actions">
                       <button
@@ -1046,6 +1071,13 @@ export default function App() {
         id="workspace-navigation"
         className={`sidebar ${menu ? "is-open" : ""}`}
       >
+        <button
+          className="icon-button drawer-close"
+          onClick={() => setMenu(false)}
+          aria-label={t("إغلاق القائمة", "Close navigation")}
+        >
+          <X />
+        </button>
         <a
           href="#overview"
           className="brand"
@@ -1065,6 +1097,9 @@ export default function App() {
             <small>{t("لوحة إدارة الأعمال", "Business operations")}</small>
           </div>
         </div>
+        <div className="nav-group-label">
+          {t("إدارة مساحة العمل", "Workspace management")}
+        </div>
         <nav aria-label={t("القائمة الرئيسية", "Main navigation")}>
           {views.map((v) => {
             const Icon = icons[v];
@@ -1076,7 +1111,12 @@ export default function App() {
                 className={view === v ? "selected" : ""}
               >
                 <Icon />
-                {labels[v]}
+                <span className="nav-label">{labels[v]}</span>
+                {v === "projects" && (
+                  <span className="nav-count" aria-hidden="true">
+                    {projects.length}
+                  </span>
+                )}
                 {v === "assistant" && <span className="nav-ai">AI</span>}
               </button>
             );
@@ -1131,6 +1171,36 @@ export default function App() {
             <ChevronLeft className={ar ? "" : "flip"} />
             <strong>{labels[view]}</strong>
           </div>
+          <form
+            className="global-search"
+            onSubmit={(event) => {
+              event.preventDefault();
+              const value =
+                new FormData(event.currentTarget)
+                  .get("quick-search")
+                  ?.toString() ?? "";
+              if (navigate("projects")) {
+                setQuery(value);
+                setStatus("all");
+                setMonths(0);
+              }
+            }}
+          >
+            <Search />
+            <input
+              name="quick-search"
+              type="search"
+              placeholder={t("ابحث في المشاريع…", "Search your projects…")}
+              aria-label={t("بحث سريع في المشاريع", "Quick project search")}
+            />
+            <button
+              type="submit"
+              className="icon-button"
+              aria-label={t("تنفيذ البحث", "Run search")}
+            >
+              <ArrowUpRight />
+            </button>
+          </form>
           <div className="topbar-actions">
             <span className="storage-label">
               {session ? <Cloud /> : <HardDrive />}
@@ -1153,12 +1223,12 @@ export default function App() {
             </button>
           </div>
         </header>
-        <main id="main" tabIndex={-1}>
+        <main id="main" tabIndex={-1} data-view={view}>
           <div className="page-heading">
             <div>
               <h1>
                 {view === "overview"
-                  ? t("مساحة لأهم أعمالك.", "Make room for your best work.")
+                  ? t("أهلًا بك في مساحة عملك", "Welcome to your workspace")
                   : view === "projects" && selectedProjectId
                     ? splitName(
                         projects.find((p) => p.id === selectedProjectId)
@@ -1170,8 +1240,8 @@ export default function App() {
               <p>
                 {view === "overview"
                   ? t(
-                      "تابع مشاريعك، اعرف أرقامك، وخطّط للخطوة القادمة.",
-                      "Track the work, understand the numbers, plan what comes next.",
+                      "إليك صورة واضحة عن المشاريع والخطوات القادمة.",
+                      "Here’s what’s happening with your projects today.",
                     )
                   : view === "assistant"
                     ? t(
@@ -1206,6 +1276,16 @@ export default function App() {
             </div>
             {(view === "overview" || view === "projects") && (
               <div className="heading-actions">
+                <span className="workspace-today">
+                  <CalendarDays />
+                  {new Intl.DateTimeFormat(ar ? "ar-SA-u-nu-latn" : "en-GB", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                    calendar: "gregory",
+                    timeZone: "Asia/Riyadh",
+                  }).format(new Date())}
+                </span>
                 <button
                   className="secondary"
                   onClick={() =>
@@ -1244,8 +1324,8 @@ export default function App() {
               <HardDrive />
               <span>
                 {t(
-                  "عملك محفوظ على هذا الجهاز.",
-                  "Your work is saved on this device.",
+                  "مساحة تجريبية؛ بيانات المثال خيالية وعملك محفوظ على هذا الجهاز.",
+                  "Demo workspace. Sample data is fictional; your work is saved on this device.",
                 )}
               </span>
               <button
@@ -1342,188 +1422,16 @@ export default function App() {
                 )}
               {view === "overview" && (
                 <>
-                  <section
-                    className="metrics overview-metrics"
-                    aria-label={t("ملخص الأرقام", "Key metrics")}
-                  >
-                    {[
-                      {
-                        label: t("معلّم بالتحصيل", "Marked paid"),
-                        value: money(stats.revenue),
-                        suffix: t("ر.س", "SAR"),
-                        icon: Wallet,
-                        note: t("من المشاريع المدفوعة", "From paid projects"),
-                      },
-                      {
-                        label: t("قيمة العمل الجاري", "Active pipeline"),
-                        value: money(stats.pipeline),
-                        suffix: t("ر.س", "SAR"),
-                        icon: BriefcaseBusiness,
-                        note: t(
-                          "قيد التنفيذ والمراجعة",
-                          "In progress and review",
-                        ),
-                      },
-                      {
-                        label: t("مشاريع جارية", "Open projects"),
-                        value: money(stats.active),
-                        suffix: "",
-                        icon: FolderKanban,
-                        note: t("ضمن الفترة المحددة", "In the selected period"),
-                      },
-                      {
-                        label: t("عملاء فريدون", "Unique clients"),
-                        value: money(stats.clients),
-                        suffix: "",
-                        icon: Users,
-                        note: t("من سجلات المشاريع", "From project records"),
-                      },
-                    ].map((s) => (
-                      <article key={s.label}>
-                        <div className="metric-label">
-                          <span>{s.label}</span>
-                          <s.icon />
-                        </div>
-                        <div className="metric-value">
-                          {s.value}
-                          <small>{s.suffix}</small>
-                        </div>
-                        <p>{s.note}</p>
-                      </article>
-                    ))}
-                  </section>
-                  <WorkspaceState store={workspace} ar={ar} />
-                  <div className="overview-context">
-                    <span>
-                      {new Intl.DateTimeFormat(ar ? "ar-SA-u-nu-latn" : "en", {
-                        weekday: "long",
-                        day: "numeric",
-                        month: "long",
-                        calendar: "gregory",
-                        timeZone: "Asia/Riyadh",
-                      }).format(new Date())}
-                    </span>
-                    <div>
-                      {counts.map((c) => (
-                        <span key={c.name}>
-                          <i style={{ background: c.fill }} />
-                          {c.name} <strong>{c.count}</strong>
-                        </span>
-                      ))}
-                    </div>
-                    <button
-                      className="text-button"
-                      onClick={() => navigate("deadlines")}
-                    >
-                      {t("كل المواعيد", "All deadlines")}
-                      <ArrowUpRight />
-                    </button>
-                  </div>
-                  <div className="overview-work-grid">
-                    <WorkAgenda
-                      ar={ar}
-                      projects={filtered}
-                      store={workspace}
-                      openProject={openProject}
-                      compact
-                    />
-                    <section className="panel chart-panel">
-                      <div className="panel-title">
-                        <div>
-                          <h2>
-                            {t(
-                              "قيمة المشاريع عبر الأشهر",
-                              "Project value by creation month",
-                            )}
-                          </h2>
-                          <p>
-                            {t(
-                              "آخر 6 أشهر حسب تاريخ إنشاء المشروع، وليست تواريخ تحصيل الدفعات",
-                              "Last 6 months by project creation date, not payment receipt date",
-                            )}
-                          </p>
-                        </div>
-                        <div className="chart-legend">
-                          <span>
-                            <i />
-                            {t("القيمة", "Value")}
-                          </span>
-                          <span>
-                            <i />
-                            {t("معلّم بالتحصيل", "Marked paid")}
-                          </span>
-                        </div>
-                      </div>
-                      <div
-                        className="chart"
-                        dir="ltr"
-                        role="img"
-                        aria-label={t(
-                          "مخطط قيم المشاريع والمبالغ المحصلة؛ تتوفر القيم الدقيقة في جدول المشاريع.",
-                          "Chart of project value and paid amounts. Exact values are available in the project table.",
-                        )}
-                      >
-                        <ResponsiveContainer width="100%" height="100%">
-                          <AreaChart
-                            data={series}
-                            margin={{ top: 15, right: 12, bottom: 0, left: 0 }}
-                          >
-                            <CartesianGrid vertical={false} stroke="#e4eae4" />
-                            <XAxis
-                              dataKey="name"
-                              axisLine={false}
-                              tickLine={false}
-                              tick={{ fill: "#52655d", fontSize: 12 }}
-                              dy={8}
-                            />
-                            <YAxis
-                              axisLine={false}
-                              tickLine={false}
-                              tick={{ fill: "#52655d", fontSize: 11 }}
-                              width={52}
-                              tickFormatter={(n) => `${n / 1000}k`}
-                            />
-                            <Tooltip
-                              formatter={(v) => [
-                                money(Number(v)),
-                                t("ر.س", "SAR"),
-                              ]}
-                              contentStyle={{
-                                borderRadius: 8,
-                                borderColor: "#dce5dd",
-                                fontFamily: "inherit",
-                              }}
-                            />
-                            <Area
-                              isAnimationActive={false}
-                              type="monotone"
-                              dataKey="total"
-                              stroke="#9cc9a5"
-                              fill="#e9f2e9"
-                              strokeWidth={2}
-                            />
-                            <Area
-                              isAnimationActive={false}
-                              type="monotone"
-                              dataKey="paid"
-                              stroke="#176748"
-                              fill="#d1e7d7"
-                              strokeWidth={2.5}
-                            />
-                          </AreaChart>
-                        </ResponsiveContainer>
-                      </div>
-                      <div className="chart-foot">
-                        <span>
-                          {t(
-                            "المبالغ بالريال السعودي · مبنية على السجلات المصفّاة",
-                            "Amounts in SAR · Based on filtered records",
-                          )}
-                        </span>
-                        <ArrowUpRight />
-                      </div>
-                    </section>
-                  </div>
+                  <Dashboard
+                    ar={ar}
+                    projects={filtered}
+                    store={workspace}
+                    months={months}
+                    setMonths={setMonths}
+                    openProject={openProject}
+                    openView={navigate}
+                  />
+                  {table()}
                   <section className="assistant-strip">
                     <div className="assistant-icon">
                       <Sparkles />
@@ -1531,14 +1439,14 @@ export default function App() {
                     <div>
                       <h2>
                         {t(
-                          "الفكرة التالية تبدأ بموجز واضح.",
-                          "The next idea starts with a clear brief.",
+                          "فكرة جديدة؟ ابدأ بموجز واضح.",
+                          "A new idea? Start with a clear brief.",
                         )}
                       </h2>
                       <p>
                         {t(
-                          "حوّل وصفًا بسيطًا إلى نطاق عمل ومخرجات وأسئلة قبل التنفيذ.",
-                          "Turn a short description into scope, deliverables and the right questions.",
+                          "نطاق العمل والمخرجات والأسئلة، قبل أول خطوة.",
+                          "Scope, deliverables and the right questions before the first step.",
                         )}
                       </p>
                     </div>
@@ -1550,7 +1458,6 @@ export default function App() {
                       <ArrowUpRight />
                     </button>
                   </section>
-                  {table()}
                 </>
               )}
               {view === "projects" && !selectedProjectId && table()}

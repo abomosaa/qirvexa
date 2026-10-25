@@ -1,5 +1,12 @@
 # Changelog / سجل التغييرات
 
+## 2026-10-25 — Professional operations dashboard / لوحة عمل احترافية
+
+- Rebuilt the dashboard around compact navigation, a sticky top bar, working global project search, four record-derived summaries, a combined value/marked-paid chart and a project-state panel. Velzon informed the information hierarchy; no template code or assets were copied. / إعادة بناء اللوحة بتنقل منظم وبحث سريع فعلي وملخصات ورسم مالي وحالات مشاريع من السجلات، بالاستفادة من ترتيب المرجع دون نسخ شفرته أو أصوله.
+- Added working chart periods, top-client value summaries and task progress in project rows, preserving deadlines, project/client editing, CSV export, AI briefs and unsaved-draft guards. / إضافة فترات للرسم وملخص العملاء وتقدم المهام مع الحفاظ على الوظائف والمسودات.
+- Added bounded chart, client-value, dialog and confirmation motion with a tested reduced-motion path. Raised new operational labels to at least 12px, action areas to at least 32px and corrected delivery-badge contrast. / إضافة حركة هادفة للرسم والقيم والنوافذ والتأكيد، مع دعم تقليل الحركة وتحسين وضوح النصوص والتباين ومساحات الضغط.
+- Passed the production build, 25 unit tests, 54 route/language/viewport checks, guest workspace CRUD and the new dashboard interaction/motion fixture. Fixtures block external requests and make no live database writes. / نجاح البناء و25 اختبارًا و54 فحص تجاوب واختبارات إدارة العمل والبحث والمسودات والحركة دون كتابة في البيانات الحية.
+
 ## 2026-10-24 — Deeper workspace / مساحة عمل أعمق
 
 - Added project task CRUD, status/priority/due dates, progress, scope/notes/briefs, client profiles, deadlines and finance views; all old IDs and records preserved. / إضافة مهام وتفاصيل المشروع وملفات العملاء والمواعيد والمتابعة المالية مع حفظ السجلات السابقة.

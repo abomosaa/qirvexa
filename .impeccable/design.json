@@ -1,57 +1,57 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-21T20:20:28.371Z",
+  "generatedAt": "2026-10-25T05:57:51.276Z",
   "title": "Design System: Qirvexa",
   "extensions": {
     "colorMeta": {
       "brand": {
         "role": "primary",
         "displayName": "Forest Brand",
-        "canonical": "#176748",
+        "canonical": "#1b725c",
         "tonalRamp": [
-          "oklch(15% 0.0908 162.27)",
-          "oklch(26% 0.0908 162.27)",
-          "oklch(38% 0.0908 162.27)",
-          "oklch(49% 0.0908 162.27)",
-          "oklch(61% 0.0908 162.27)",
-          "oklch(72% 0.0908 162.27)",
-          "oklch(84% 0.0908 162.27)",
-          "oklch(95% 0.0908 162.27)"
+          "oklch(15% 0.0874 171.63)",
+          "oklch(26% 0.0874 171.63)",
+          "oklch(38% 0.0874 171.63)",
+          "oklch(49% 0.0874 171.63)",
+          "oklch(61% 0.0874 171.63)",
+          "oklch(72% 0.0874 171.63)",
+          "oklch(84% 0.0874 171.63)",
+          "oklch(95% 0.0874 171.63)"
         ]
       },
       "accent": {
         "role": "primary",
-        "displayName": "Soft Mint",
-        "canonical": "#a9d8b3",
+        "displayName": "Mint Marker",
+        "canonical": "#a9dfc8",
         "tonalRamp": [
-          "oklch(15% 0.0710 151.07)",
-          "oklch(26% 0.0710 151.07)",
-          "oklch(38% 0.0710 151.07)",
-          "oklch(49% 0.0710 151.07)",
-          "oklch(61% 0.0710 151.07)",
-          "oklch(72% 0.0710 151.07)",
-          "oklch(84% 0.0710 151.07)",
-          "oklch(95% 0.0710 151.07)"
+          "oklch(15% 0.0641 166.84)",
+          "oklch(26% 0.0641 166.84)",
+          "oklch(38% 0.0641 166.84)",
+          "oklch(49% 0.0641 166.84)",
+          "oklch(61% 0.0641 166.84)",
+          "oklch(72% 0.0641 166.84)",
+          "oklch(84% 0.0641 166.84)",
+          "oklch(95% 0.0641 166.84)"
         ]
       },
       "bg": {
         "role": "neutral",
-        "displayName": "Limestone Workspace",
-        "canonical": "#f4f6f3",
+        "displayName": "Cool Canvas",
+        "canonical": "#f3f5f8",
         "tonalRamp": [
-          "oklch(15% 0.0045 134.85)",
-          "oklch(26% 0.0045 134.85)",
-          "oklch(38% 0.0045 134.85)",
-          "oklch(49% 0.0045 134.85)",
-          "oklch(61% 0.0045 134.85)",
-          "oklch(72% 0.0045 134.85)",
-          "oklch(84% 0.0045 134.85)",
-          "oklch(95% 0.0045 134.85)"
+          "oklch(15% 0.0045 258.32)",
+          "oklch(26% 0.0045 258.32)",
+          "oklch(38% 0.0045 258.32)",
+          "oklch(49% 0.0045 258.32)",
+          "oklch(61% 0.0045 258.32)",
+          "oklch(72% 0.0045 258.32)",
+          "oklch(84% 0.0045 258.32)",
+          "oklch(95% 0.0045 258.32)"
         ]
       },
       "surface": {
         "role": "neutral",
-        "displayName": "White Surface",
+        "displayName": "Working White",
         "canonical": "#fff",
         "tonalRamp": [
           "oklch(15% 0.0000 89.88)",
@@ -66,62 +66,122 @@
       },
       "ink": {
         "role": "neutral",
-        "displayName": "Deep Ink",
-        "canonical": "#172a25",
+        "displayName": "Blue Gray Ink",
+        "canonical": "#283b43",
         "tonalRamp": [
-          "oklch(15% 0.0267 175.65)",
-          "oklch(26% 0.0267 175.65)",
-          "oklch(38% 0.0267 175.65)",
-          "oklch(49% 0.0267 175.65)",
-          "oklch(61% 0.0267 175.65)",
-          "oklch(72% 0.0267 175.65)",
-          "oklch(84% 0.0267 175.65)",
-          "oklch(95% 0.0267 175.65)"
+          "oklch(15% 0.0281 225.97)",
+          "oklch(26% 0.0281 225.97)",
+          "oklch(38% 0.0281 225.97)",
+          "oklch(49% 0.0281 225.97)",
+          "oklch(61% 0.0281 225.97)",
+          "oklch(72% 0.0281 225.97)",
+          "oklch(84% 0.0281 225.97)",
+          "oklch(95% 0.0281 225.97)"
         ]
       },
       "muted": {
         "role": "neutral",
-        "displayName": "Muted Green",
-        "canonical": "#52655d",
+        "displayName": "Supporting Slate",
+        "canonical": "#596b77",
         "tonalRamp": [
-          "oklch(15% 0.0263 167.81)",
-          "oklch(26% 0.0263 167.81)",
-          "oklch(38% 0.0263 167.81)",
-          "oklch(49% 0.0263 167.81)",
-          "oklch(61% 0.0263 167.81)",
-          "oklch(72% 0.0263 167.81)",
-          "oklch(84% 0.0263 167.81)",
-          "oklch(95% 0.0263 167.81)"
+          "oklch(15% 0.0288 237.32)",
+          "oklch(26% 0.0288 237.32)",
+          "oklch(38% 0.0288 237.32)",
+          "oklch(49% 0.0288 237.32)",
+          "oklch(61% 0.0288 237.32)",
+          "oklch(72% 0.0288 237.32)",
+          "oklch(84% 0.0288 237.32)",
+          "oklch(95% 0.0288 237.32)"
         ]
       },
       "line": {
         "role": "neutral",
         "displayName": "Pale Rule",
-        "canonical": "#dce5dd",
+        "canonical": "#e2e8ed",
         "tonalRamp": [
-          "oklch(15% 0.0144 148.77)",
-          "oklch(26% 0.0144 148.77)",
-          "oklch(38% 0.0144 148.77)",
-          "oklch(49% 0.0144 148.77)",
-          "oklch(61% 0.0144 148.77)",
-          "oklch(72% 0.0144 148.77)",
-          "oklch(84% 0.0144 148.77)",
-          "oklch(95% 0.0144 148.77)"
+          "oklch(15% 0.0094 242.84)",
+          "oklch(26% 0.0094 242.84)",
+          "oklch(38% 0.0094 242.84)",
+          "oklch(49% 0.0094 242.84)",
+          "oklch(61% 0.0094 242.84)",
+          "oklch(72% 0.0094 242.84)",
+          "oklch(84% 0.0094 242.84)",
+          "oklch(95% 0.0094 242.84)"
         ]
       },
       "sidebar": {
         "role": "neutral",
         "displayName": "Forest Navigation",
-        "canonical": "#102c22",
+        "canonical": "#173b36",
         "tonalRamp": [
-          "oklch(15% 0.0392 167.55)",
-          "oklch(26% 0.0392 167.55)",
-          "oklch(38% 0.0392 167.55)",
-          "oklch(49% 0.0392 167.55)",
-          "oklch(61% 0.0392 167.55)",
-          "oklch(72% 0.0392 167.55)",
-          "oklch(84% 0.0392 167.55)",
-          "oklch(95% 0.0392 167.55)"
+          "oklch(15% 0.0425 183.34)",
+          "oklch(26% 0.0425 183.34)",
+          "oklch(38% 0.0425 183.34)",
+          "oklch(49% 0.0425 183.34)",
+          "oklch(61% 0.0425 183.34)",
+          "oklch(72% 0.0425 183.34)",
+          "oklch(84% 0.0425 183.34)",
+          "oklch(95% 0.0425 183.34)"
+        ]
+      },
+      "nav-selected": {
+        "role": "neutral",
+        "displayName": "Selected Forest",
+        "canonical": "#2d594b",
+        "tonalRamp": [
+          "oklch(15% 0.0547 170.84)",
+          "oklch(26% 0.0547 170.84)",
+          "oklch(38% 0.0547 170.84)",
+          "oklch(49% 0.0547 170.84)",
+          "oklch(61% 0.0547 170.84)",
+          "oklch(72% 0.0547 170.84)",
+          "oklch(84% 0.0547 170.84)",
+          "oklch(95% 0.0547 170.84)"
+        ]
+      },
+      "nav-selected-ink": {
+        "role": "neutral",
+        "displayName": "Selected Pale Ink",
+        "canonical": "#ddf7eb",
+        "tonalRamp": [
+          "oklch(15% 0.0315 166.25)",
+          "oklch(26% 0.0315 166.25)",
+          "oklch(38% 0.0315 166.25)",
+          "oklch(49% 0.0315 166.25)",
+          "oklch(61% 0.0315 166.25)",
+          "oklch(72% 0.0315 166.25)",
+          "oklch(84% 0.0315 166.25)",
+          "oklch(95% 0.0315 166.25)"
+        ]
+      },
+      "chart-value": {
+        "role": "secondary",
+        "displayName": "Contract Blue",
+        "canonical": "#a9c2dc",
+        "tonalRamp": [
+          "oklch(15% 0.0459 249.43)",
+          "oklch(26% 0.0459 249.43)",
+          "oklch(38% 0.0459 249.43)",
+          "oklch(49% 0.0459 249.43)",
+          "oklch(61% 0.0459 249.43)",
+          "oklch(72% 0.0459 249.43)",
+          "oklch(84% 0.0459 249.43)",
+          "oklch(95% 0.0459 249.43)"
+        ]
+      },
+      "chart-paid": {
+        "role": "secondary",
+        "displayName": "Marked Paid Green",
+        "canonical": "#1d8065",
+        "tonalRamp": [
+          "oklch(15% 0.0978 169.79)",
+          "oklch(26% 0.0978 169.79)",
+          "oklch(38% 0.0978 169.79)",
+          "oklch(49% 0.0978 169.79)",
+          "oklch(61% 0.0978 169.79)",
+          "oklch(72% 0.0978 169.79)",
+          "oklch(84% 0.0978 169.79)",
+          "oklch(95% 0.0978 169.79)"
         ]
       },
       "danger": {
@@ -143,19 +203,23 @@
     "typographyMeta": {
       "headline": {
         "displayName": "Page heading",
-        "purpose": "Primary operational page titles."
+        "purpose": "Compact operational page titles."
       },
       "title": {
         "displayName": "Panel title",
-        "purpose": "Section and panel headings."
+        "purpose": "Working-panel headings."
       },
       "metric": {
         "displayName": "Metric",
-        "purpose": "Tabular amounts and totals."
+        "purpose": "Overview tabular values."
+      },
+      "data": {
+        "displayName": "Data",
+        "purpose": "Primary compact table and client values."
       },
       "label": {
         "displayName": "Support label",
-        "purpose": "Compact metadata and control labels."
+        "purpose": "Secondary dashboard metadata; keep at least 12px."
       }
     },
     "shadows": [
@@ -168,34 +232,64 @@
     "motion": [
       {
         "name": "control",
-        "value": "background .18s,color .18s",
-        "purpose": "Button state feedback."
+        "value": "background-color 140ms, border-color 140ms, color 140ms, box-shadow 140ms",
+        "purpose": "Local control state feedback."
       },
       {
         "name": "drawer",
         "value": "transform .2s ease",
-        "purpose": "Mobile navigation."
+        "purpose": "Mobile navigation; disabled for reduced motion."
+      },
+      {
+        "name": "chart",
+        "value": "420ms",
+        "purpose": "Bar/line entrance; disabled by live reduced-motion preference."
+      },
+      {
+        "name": "client-share",
+        "value": "420ms cubic-bezier(0.16,1,0.3,1)",
+        "purpose": "Direction-aware local proportion reveal; disabled for reduced motion."
+      },
+      {
+        "name": "status-distribution",
+        "value": "flex 300ms cubic-bezier(0.16,1,0.3,1)",
+        "purpose": "Saved status distribution change; disabled for reduced motion."
+      },
+      {
+        "name": "dialog",
+        "value": "240ms cubic-bezier(0.16,1,0.3,1)",
+        "purpose": "Local opacity/translation/scale entrance; disabled for reduced motion."
+      },
+      {
+        "name": "backdrop",
+        "value": "180ms ease-out",
+        "purpose": "Backdrop color entrance; disabled for reduced motion."
+      },
+      {
+        "name": "notice",
+        "value": "200ms cubic-bezier(0.16,1,0.3,1)",
+        "purpose": "Color confirmation, shortened to 120ms linear with reduced motion."
       }
     ],
     "breakpoints": [
       {
-        "name": "wide",
-        "value": "1600px",
-        "query": "min-width"
-      },
-      {
-        "name": "compact",
-        "value": "1200px",
+        "name": "compact-rail",
+        "value": "1250px",
         "query": "max-width"
       },
       {
-        "name": "stacked",
-        "value": "1000px",
+        "name": "stacked-overview",
+        "value": "1050px",
         "query": "max-width"
       },
       {
         "name": "drawer",
         "value": "760px",
+        "query": "max-width"
+      },
+      {
+        "name": "narrow-metric",
+        "value": "370px",
         "query": "max-width"
       }
     ]
@@ -205,63 +299,84 @@
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Main save/create action.",
+      "description": "Standard save/create action.",
       "html": "<button class=\"ds-primary\">حفظ المشروع</button>",
-      "css": ".ds-primary{font:500 14px 'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;background:var(--brand,#176748);color:#fff;border:1px solid transparent;border-radius:8px;padding:9px 16px;min-height:42px;cursor:pointer;transition:background .18s,color .18s}.ds-primary:hover{background:#105337}.ds-primary:focus-visible{outline:3px solid #69a47a;outline-offset:3px}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}"
+      "css": ".ds-primary{font-family:'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;font-size:14px;font-weight:500;background:var(--brand,#1b725c);color:#fff;border:1px solid transparent;border-radius:8px;padding:9px 16px;min-height:42px;cursor:pointer;transition:background-color 140ms,color 140ms}.ds-primary:hover{background:#105337}.ds-primary:active{transform:translateY(1px)}.ds-primary:focus-visible{outline:3px solid #69a47a;outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-primary,.ds-secondary,.ds-field input,.ds-nav button{transition:none;transform:none}}"
     },
     {
       "name": "Secondary Button",
       "kind": "button",
       "refersTo": "button-secondary",
-      "description": "Export or secondary action.",
+      "description": "Secondary/export action.",
       "html": "<button class=\"ds-secondary\">تصدير CSV</button>",
-      "css": ".ds-secondary{font:500 14px 'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;background:var(--surface,#fff);color:var(--ink,#172a25);border:1px solid var(--line,#dce5dd);border-radius:8px;padding:9px 16px;min-height:42px;cursor:pointer;transition:background .18s}.ds-secondary:hover{background:#edf3ed}.ds-secondary:focus-visible{outline:3px solid #69a47a;outline-offset:3px}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}"
+      "css": ".ds-secondary{font-family:'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;font-size:14px;font-weight:500;background:var(--surface,#fff);color:var(--ink,#283b43);border:1px solid var(--line,#e2e8ed);border-radius:8px;padding:9px 16px;min-height:42px;cursor:pointer;transition:background-color 140ms}.ds-secondary:hover{background:#edf3ed}.ds-secondary:active{transform:translateY(1px)}.ds-secondary:focus-visible{outline:3px solid #69a47a;outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-primary,.ds-secondary,.ds-field input,.ds-nav button{transition:none;transform:none}}"
     },
     {
       "name": "Input",
       "kind": "input",
       "refersTo": "input",
-      "description": "Labeled project input.",
+      "description": "Visible project field label and form control.",
       "html": "<label class=\"ds-field\" dir=\"rtl\">اسم المشروع<input placeholder=\"مشروع جديد\"></label>",
-      "css": ".ds-field{display:flex;flex-direction:column;gap:6px;font:12px 'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;color:var(--ink,#172a25)}.ds-field input{font:13px 'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;color:var(--ink,#172a25);background:var(--surface,#fff);border:1px solid var(--line,#dce5dd);border-radius:8px;padding:10px 12px;caret-color:var(--brand,#176748)}.ds-field input:hover{border-color:#b5c7ba}.ds-field input:focus-visible{outline:3px solid #69a47a;outline-offset:3px}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}"
+      "css": ".ds-field{font-family:'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--ink,#283b43)}.ds-field input{font-family:'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;font-size:13px;color:var(--ink,#283b43);background:var(--surface,#fff);border:1px solid var(--line,#e2e8ed);border-radius:8px;padding:10px 12px;caret-color:var(--brand,#1b725c);transition:border-color 140ms}.ds-field input:focus-visible{outline:3px solid #69a47a;outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-primary,.ds-secondary,.ds-field input,.ds-nav button{transition:none;transform:none}}"
     },
     {
       "name": "Navigation",
       "kind": "nav",
       "refersTo": "nav-active",
-      "description": "Selected navigation inside the forest sidebar.",
+      "description": "Forest rail with selected fill and logical-edge mint marker.",
       "html": "<nav class=\"ds-nav\" dir=\"rtl\" aria-label=\"الأقسام\"><button class=\"ds-current\" aria-current=\"page\">نظرة عامة</button><button>المشاريع</button></nav>",
-      "css": ".ds-nav{background:var(--sidebar,#102c22);padding:18px;display:grid;gap:5px;max-width:240px}.ds-nav button{font:500 14px 'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;background:transparent;color:#c2d8c9;border:0;border-radius:8px;padding:12px 15px;min-height:47px;text-align:start;cursor:pointer}.ds-nav button:hover{background:#244334}.ds-nav .ds-current,.ds-nav .ds-current:hover{background:var(--accent,#a9d8b3);color:var(--sidebar,#102c22)}.ds-nav button:focus-visible{outline:3px solid #69a47a;outline-offset:3px}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}"
+      "css": ".ds-nav{background:var(--sidebar,#173b36);padding:16px;display:grid;gap:6px;max-width:238px}.ds-nav button{font-family:'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;position:relative;font-size:13px;background:transparent;color:#c5ded3;border:0;border-radius:7px;padding:10px 13px;min-height:45px;text-align:start;cursor:pointer;transition:background-color 140ms,color 140ms}.ds-nav button:hover{background:#234b41;color:#fff}.ds-nav .ds-current,.ds-nav .ds-current:hover{background:#2d594b;color:#ddf7eb}.ds-nav .ds-current:after{content:'';position:absolute;inset-inline-start:0;top:50%;margin-top:-9px;height:18px;width:2px;border-radius:2px;background:var(--accent,#a9dfc8)}.ds-nav button:focus-visible{outline:3px solid #69a47a;outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-primary,.ds-secondary,.ds-field input,.ds-nav button{transition:none;transform:none}}"
     },
     {
       "name": "Status Badge",
       "kind": "chip",
-      "description": "Written status paired with tint.",
+      "description": "Saved status written beside its tint.",
       "html": "<span class=\"ds-badge\" dir=\"rtl\">قيد التنفيذ</span>",
-      "css": ".ds-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:5px;font:12px 'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;background:#e5f1e8;color:#1b6240;white-space:nowrap}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}"
+      "css": ".ds-badge{font-family:'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;display:inline-flex;padding:3px 8px;border-radius:4px;font-size:12px;background:#e6f3eb;color:#236b52;white-space:nowrap}"
     },
     {
       "name": "Working Panel",
       "kind": "card",
       "refersTo": "panel",
-      "description": "Flat title/content surface.",
-      "html": "<section class=\"ds-panel\" dir=\"rtl\"><h2>المشاريع الحالية</h2><p>البيانات المعروضة تجريبية.</p></section>",
-      "css": ".ds-panel{background:var(--surface,#fff);color:var(--ink,#172a25);border:1px solid var(--line,#dce5dd);border-radius:var(--radius,14px);padding:22px 24px;font-family:'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif}.ds-panel h2{font-size:17px;font-weight:600;line-height:1.6;margin:0}.ds-panel p{font-size:12px;color:var(--muted,#52655d);margin:3px 0 0}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}"
+      "description": "Flat working surface with a ruled header.",
+      "html": "<section class=\"ds-panel\" dir=\"rtl\"><header><h2>المشاريع الحالية</h2><p>من السجلات المحفوظة</p></header><div>البيانات المعروضة تجريبية.</div></section>",
+      "css": ".ds-panel{font-family:'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;background:var(--surface,#fff);color:var(--ink,#283b43);border:1px solid var(--line,#e2e8ed);border-radius:var(--radius,12px);overflow:hidden}.ds-panel header{padding:17px 20px;border-bottom:1px solid var(--line,#e2e8ed)}.ds-panel h2{font-size:15px;font-weight:600;line-height:1.6;margin:0}.ds-panel p{font-size:12px;color:var(--muted,#596b77);margin:3px 0 0}.ds-panel>div{padding:16px 20px;font-size:12px}"
+    },
+    {
+      "name": "Overview Metric",
+      "kind": "card",
+      "refersTo": "metric-card",
+      "description": "One of four chosen overview summary panels.",
+      "html": "<article class=\"ds-metric\" dir=\"rtl\"><span>مشاريع جارية</span><strong>12</strong><p>ضمن الفترة المحددة</p></article>",
+      "css": ".ds-metric{font-family:'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;background:var(--surface,#fff);color:var(--ink,#283b43);border:1px solid var(--line,#e2e8ed);border-radius:12px;padding:17px 18px 10px}.ds-metric>span{font-size:12px;font-weight:500}.ds-metric strong{display:block;font-family:'IBM Plex Sans',sans-serif;font-size:28px;font-weight:600;line-height:1.4;letter-spacing:-.02em;margin:4px 0 3px;font-variant-numeric:tabular-nums}.ds-metric p{margin:0;font-size:12px;color:var(--muted,#596b77)}"
+    },
+    {
+      "name": "Value Chart Key",
+      "kind": "custom",
+      "description": "Record-value blue bars with marked-paid green line and circular points; illustrative key only.",
+      "html": "<div class=\"ds-chart\"><svg viewBox=\"0 0 240 90\" role=\"img\" aria-label=\"Project value and marked paid visual key\"><path d=\"M10 75H230M10 45H230M10 15H230\" stroke=\"#edf1f5\" stroke-dasharray=\"3 4\"/><path d=\"M40 75V35H66V75M100 75V20H126V75M160 75V8H186V75\" fill=\"#a9c2dc\"/><path d=\"M53 58L113 43L173 31\" fill=\"none\" stroke=\"#1d8065\" stroke-width=\"2.5\"/><circle cx=\"53\" cy=\"58\" r=\"3\" fill=\"white\" stroke=\"#1d8065\" stroke-width=\"2\"/><circle cx=\"113\" cy=\"43\" r=\"3\" fill=\"white\" stroke=\"#1d8065\" stroke-width=\"2\"/><circle cx=\"173\" cy=\"31\" r=\"3\" fill=\"white\" stroke=\"#1d8065\" stroke-width=\"2\"/></svg><p><span>Project value</span><span>Marked paid</span></p></div>",
+      "css": ".ds-chart{font-family:'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;background:#fff;color:var(--muted,#596b77);padding:12px 20px}.ds-chart svg{display:block;width:100%;max-width:300px}.ds-chart p{display:flex;gap:14px;font-size:12px;margin:8px 0 0}.ds-chart span:before{content:'';display:inline-block;width:7px;height:7px;border-radius:2px;margin-inline-end:5px;background:#a9c2dc}.ds-chart span:last-child:before{background:#1d8065}"
     }
   ],
   "narrative": {
     "northStar": "The Quiet Operations Desk",
-    "overview": "Pale limestone working surfaces sit beside deep forest navigation. Alignment, rules, and restrained mint states organize dense operational information. This is the implemented original identity; shadcn research informed hierarchy only.",
+    "overview": "Deep forest navigation frames a cool, lightly tinted workspace. White working panels, clear borders, compact type and restrained status color make project records easy to scan. The dashboard adopts the user's chosen reference hierarchy through original implementation; no template assets or code are part of this system.\n\nThe current system is extracted from the final workspace redesign block in the stylesheet and its implemented components. Source code is the visual authority; there is no approved image composition. Bilingual behavior, explicit data provenance and visible feedback belong to the working interface.",
     "keyCharacteristics": [
-      "Calm forest and limestone contrast.",
-      "Compact bilingual operational typography.",
-      "Border-led surfaces and tabular figures."
+      "Orderly forest navigation and cool working surfaces.",
+      "Compact bilingual typography with readable data and tabular figures.",
+      "Border-led panels, written states and record-derived charts.",
+      "Local, purposeful motion with reduced-motion feedback."
     ],
     "rules": [
       {
         "name": "The State Color Rule",
         "body": "Pair status color with a written label; preserve explicit selected navigation contrast.",
-        "section": "neutral"
+        "section": "colors"
+      },
+      {
+        "name": "The Record Meaning Rule",
+        "body": "Chart color identifies recorded project value and manually marked paid value by project creation month; it never implies payment receipt dates or bank activity.",
+        "section": "colors"
       },
       {
         "name": "The Numeric Alignment Rule",
@@ -277,11 +392,15 @@
     "dos": [
       "Do preserve Arabic-first RTL and complete English layouts.",
       "Do use borders, alignment, and spacing to group operational information.",
-      "Do keep written status labels beside color cues."
+      "Do keep written status labels beside color cues.",
+      "Do retain local-storage, sample-data and draft cues where their state applies.",
+      "Do make motion explain a local state change and honor reduced-motion preferences."
     ],
     "donts": [
       "Don't introduce ornamental dashboard shadows or marketing hero treatments.",
-      "Don't replace labeled sample data with implied real customer or revenue claims."
+      "Don't replace labeled sample data with implied real customer or revenue claims.",
+      "Don't imply receipt dates, bank activity or payment collection from a manually marked paid field.",
+      "Don't shrink dashboard secondary labels below 12px to fit content."
     ]
   }
 }

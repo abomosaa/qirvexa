@@ -1,5 +1,8 @@
 # Qirvexa
 
+<div dir="rtl" align="right">تحديث25أكتوبر2026: لوحة عمل بترتيب مستلهم من Velzon، بهوية خضراء مستقلة: قائمة جانبية وشريط علوي وبحث سريع، ملخصات من السجلات، رسم مركب للقيمة والتحصيل، حالة المشاريع، المواعيد القادمة، قيم العملاء، وتقدم المهام في الجدول. جميع الأزرار تقود لوظائف فعلية. الحركة قصيرة وتدعم تقليل الحركة. اجتاز المصدر25اختبارًا، و54حالة تجاوب، وفحوص الفترة والبحث والمسودات ولوحة المفاتيح والتباين؛ تدقيق Webforge النهائي99 دون ملاحظات وصول عالية. تفاصيل التنفيذ والمراجعة في CHANGELOG وREVIEW.</div>
+
+25 October 2026: a Velzon-inspired operational layout in Qirvexa's own forest identity. Compact navigation/topbar and working quick search, record-derived summaries, a composed value/paid chart, project status, upcoming work, client values and real task progress. Short functional motion respects reduced-motion settings. Build,25 unit tests,54 responsive cases and period/search/draft/keyboard/contrast fixtures passed; final Webforge audit99 has no high accessibility findings. Existing large JavaScript bundle warning remains a performance limitation, not a field-performance certification.
 <div dir="rtl" align="right">مساحة لإدارة المشاريع والمهام والعملاء والمواعيد، مع متابعة القيم والمدفوع والمستحق ومساعد ذكي للموجزات. صفحات المشاريع قابلة للمشاركة كرابط داخل مساحة الحساب، وبيانات كل حساب خاصة به. الضيف يحفظ على جهازه. راجع سجل التغييرات والمراجعة لتفاصيل توسعة 24 أكتوبر 2026.</div>
 
 A bilingual project workspace with tasks, client profiles, deadlines, recorded-value finances and AI briefs. Per-project deep links resolve within the current owner's workspace; they do not expose private records publicly. Guest state is device-local. See CHANGELOG and REVIEW for the 2026-10-24 upgrade and verification.
@@ -22,7 +25,7 @@ Supabase schema and ownership checks are verified. Public deployment and real Ar
 
 [Live demo / العرض المباشر](https://qirvexa.qirvexa.workers.dev) · [Source / المصدر](https://github.com/abomosaa/qirvexa)
 
-![Arabic desktop dashboard](qa/screenshots/capture/shots/desktop-fold.png)
+![Arabic desktop dashboard](.impeccable/review/dashboard-ar-1440-viewport.png)
 
 ## Run / التشغيل
 
