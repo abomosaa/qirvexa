@@ -1,8 +1,7 @@
 Qirvexa — مساحة أعمالك في مكان واحد
 
-Organize Projects. Manage Work. Stay Focused.
 
-""Validate" (https://github.com/abomosaa/qirvexa/actions/workflows/ci.yml/badge.svg)" (https://github.com/abomosaa/qirvexa/actions/workflows/ci.yml)
+
 
 "زيارة المنصة | Live Website" (https://qirvexa.qirvexa.workers.dev)
 
