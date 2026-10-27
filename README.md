@@ -1,14 +1,12 @@
-<div dir="rtl" align="right">شاهد Qirvexa خلال 28 ثانية · عرض عربي بدقة 1080p</div>
+
+Qirvexa — مساحة أعمالك في مكان واحد
+---
 
 https://github.com/user-attachments/assets/66bbeba0-9db8-47aa-839b-142c5d2e9609
 
 **[زيارة المنصة | Live Website](https://qirvexa.qirvexa.workers.dev)**
 
 ---
-
-Qirvexa — مساحة أعمالك في مكان واحد
----
-
 
 
 "زيارة المنصة | Live Website" (https://qirvexa.qirvexa.workers.dev)
