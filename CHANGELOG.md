@@ -45,4 +45,4 @@
 - Captured actual design tokens and reusable component previews. Published on Cloudflare and verified actual Arabic inference through the deployed interface; visitor GitHub OAuth remains pending.
 ## 2026-10-27 — Product film / فيديو العرض
 
-- Lead agent placed the Arabic 28-second, 1080p product film at the top of the README with a native GitHub video player and a live workspace link. Application code and deployment are unchanged. / وضع الوكيل الرئيسي فيديو العرض العربي في أعلى README مع مشغل GitHub ورابط الموقع؛ دون تغيير كود التطبيق أو نشره.
+- The README includes the Arabic 28-second, 1080p product film at the top of the README with a native GitHub video player and a live workspace link. Application code and deployment are unchanged. / وُضع فيديو العرض العربي في أعلى README مع مشغل GitHub ورابط الموقع؛ دون تغيير كود التطبيق أو نشره.
