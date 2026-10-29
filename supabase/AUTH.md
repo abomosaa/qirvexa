@@ -29,7 +29,7 @@ The source implements email/password sign-in, signup, password recovery and conf
 
 Google audience remains **Testing**, not In Production, with no brand-verification claim. Only basic identity scopes are intended. Google's [documented identity exception](https://support.google.com/cloud/answer/15549945?hl=en) permits users outside the test list for name/email/profile-only requests; additional scopes would require reassessment.
 
-The main agent discovered that Tavoryxa's first Google callback fell back to Qirvexa. Adding each trailing-slash origin changed the shared Supabase Auth redirect allowlist from four exact entries to six:
+It was discovered that Tavoryxa's first Google callback fell back to Qirvexa. Adding each trailing-slash origin changed the shared Supabase Auth redirect allowlist from four exact entries to six:
 
 ```text
 https://qirvexa.qirvexa.workers.dev
