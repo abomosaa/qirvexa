@@ -75,6 +75,8 @@ Tech Stack
 
 React · TypeScript · Vite · Supabase · Cloudflare Workers AI · Recharts · Tailwind CSS
 
+Product requirements: [PRD.md](PRD.md).
+
 Getting Started
 
 npm ci
