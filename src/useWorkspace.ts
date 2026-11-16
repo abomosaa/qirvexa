@@ -53,6 +53,8 @@ export function useWorkspace(session: Session | null) {
   const current = (epoch: number) =>
     alive.current && identity.current.epoch === epoch;
   const value = state.owner === owner ? state.value : emptyWorkspace();
+  const latestValue = useRef(value);
+  latestValue.current = value;
   useEffect(() => {
     alive.current = true;
     let active = true;
@@ -130,9 +132,11 @@ export function useWorkspace(session: Session | null) {
             : "details";
       const idKey = field === "details" ? "project_id" : "id";
       const next = {
-        ...value,
+        ...latestValue.current,
         [field]: [
-          ...(value[field] as unknown as Record<string, unknown>[]).filter(
+          ...(
+            latestValue.current[field] as unknown as Record<string, unknown>[]
+          ).filter(
             (item) =>
               item[idKey] !==
               (row as unknown as Record<string, unknown>)[idKey],
@@ -165,6 +169,7 @@ export function useWorkspace(session: Session | null) {
           return false;
         }
       }
+      latestValue.current = next;
       setState({ owner: requestOwner, value: next });
       return true;
     } catch {

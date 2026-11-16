@@ -43,6 +43,14 @@
 - Added a bounded Cloudflare AI endpoint and rate/input/body guards.
 - Recorded passing build/typecheck, 12 tests, guest browser flows, mocked auth isolation, responsive review, and database ownership assertions.
 - Captured actual design tokens and reusable component previews. Published on Cloudflare and verified actual Arabic inference through the deployed interface; visitor GitHub OAuth remains pending.
+
 ## 2026-10-27 — Product film / فيديو العرض
 
 - The README includes the Arabic 28-second, 1080p product film at the top of the README with a native GitHub video player and a live workspace link. Application code and deployment are unchanged. / وُضع فيديو العرض العربي في أعلى README مع مشغل GitHub ورابط الموقع؛ دون تغيير كود التطبيق أو نشره.
+
+## 2026-11-16 — Client profiles and work focus / العملاء وتركيز العمل
+
+- Added six realistic fictional Arabic client profiles with reserved example.com addresses and non-dialable masked phones. Explicit import skips existing names and preserves user records. / ستة ملفات عربية نموذجية ببيانات آمنة وإضافة تحفظ السجلات الموجودة.
+- Fixed stale workspace state during sequential saves, preventing earlier local contact imports from being overwritten. / إصلاح فقد الملفات السابقة أثناء الحفظ المتتابع محليًا.
+- Added a record-derived work-focus summary, deadline action, and restrained motion with reduced-motion support. / ملخص عمل من السجلات ورابط المواعيد وحركة مناسبة مع دعم تقليل الحركة.
+- Local production build, 25 unit tests and six Arabic/English viewport workflow checks passed. SMTP and public deployment are tracked separately in root notes. / نجاح البناء والاختبارات المحلية؛ حالة البريد والنشر موثقة في ملاحظات الجذر.

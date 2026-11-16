@@ -1,0 +1,109 @@
+.sample-contact-import {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 16px 0;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #e2e8ed;
+}
+.sample-contact-import p {
+  margin: 0;
+  max-width: 65ch;
+  color: #596b77;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.sample-contact-import button {
+  flex-shrink: 0;
+}
+.dashboard .metric-symbol svg {
+  transition: transform 180ms ease-out;
+}
+.dashboard .metric-card:focus-within .metric-symbol svg,
+.dashboard .metric-card:hover .metric-symbol svg {
+  transform: rotate(-8deg);
+}
+.client-entry {
+  transition:
+    background-color 160ms,
+    border-color 160ms;
+}
+.work-focus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 24px;
+  background: #173b36;
+  color: #fff;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+.work-focus h2 {
+  font-size: 20px;
+  margin: 0 0 6px;
+}
+.work-focus p {
+  color: #d4e8df;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.8;
+  max-width: 70ch;
+}
+.work-focus button {
+  background: #d8f0e4;
+  color: #173b36;
+  flex-shrink: 0;
+  border: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .overview-metrics .metric-value {
+    animation: metric-clarity 380ms ease-out;
+  }
+  .client-directory-list {
+    animation: workspace-content 220ms ease-out;
+  }
+  .dashboard-analysis {
+    animation: workspace-content 260ms ease-out;
+  }
+  .work-focus button svg {
+    transition: transform 180ms;
+  }
+  .work-focus button:hover svg {
+    transform: translateY(-2px);
+  }
+  @keyframes metric-clarity {
+    from {
+      opacity: 0.65;
+      filter: blur(1px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+  @keyframes workspace-content {
+    from {
+      opacity: 0.65;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+@media (max-width: 700px) {
+  .work-focus,
+  .sample-contact-import {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .work-focus {
+    padding: 18px;
+  }
+  .work-focus button {
+    width: 100%;
+  }
+}

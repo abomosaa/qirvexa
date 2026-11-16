@@ -14,6 +14,7 @@ import {
   X,
 } from "lucide-react";
 import type { Project } from "./model";
+import { sampleClients } from "./sampleClients";
 import {
   agenda,
   clientNames,
@@ -843,6 +844,33 @@ export function ClientDirectory({
   }, [onDirtyChange]);
   const [notice, setNotice] = useState("");
   const names = clientNames(projects, store.clients);
+  const [addingSamples, setAddingSamples] = useState(false);
+  async function addSampleContacts() {
+    if (!canChange() || addingSamples) return;
+    setAddingSamples(true);
+    let added = 0;
+    for (const record of sampleClients()) {
+      if (names.includes(record.name)) continue;
+      if (!(await store.saveClient(record))) {
+        setNotice(
+          t(
+            "تعذر إكمال الإضافة. المحفوظ باقٍ؛ أعد المحاولة.",
+            "Import interrupted. Saved contacts remain; retry to continue.",
+          ),
+        );
+        setAddingSamples(false);
+        return;
+      }
+      added++;
+    }
+    setNotice(
+      t(
+        `أُضيف ${added} من ملفات العملاء النموذجية. بيانات التواصل خيالية.`,
+        `Added ${added} sample contacts. Contact details are fictional.`,
+      ),
+    );
+    setAddingSamples(false);
+  }
   const profile = store.clients.find((c) => c.name === selected);
   const related = projects.filter((p) => p.client === selected);
   const total = financeSummary(related);
@@ -930,6 +958,24 @@ export function ClientDirectory({
             placeholder={t("ابحث عن اسم العميل…", "Search client name…")}
           />
         </label>
+        <div className="sample-contact-import">
+          <p>
+            {t(
+              "ابدأ بملفات عربية نموذجية، أو أضف عملاءك بنفسك. الأسماء والبيانات للاطلاع فقط.",
+              "Start with illustrative Arabic client profiles, or add your own. Sample contacts are fictional.",
+            )}
+          </p>
+          <button
+            className="secondary"
+            disabled={disabled || addingSamples}
+            onClick={addSampleContacts}
+          >
+            <Plus size={16} />
+            {addingSamples
+              ? t("جارٍ الإضافة…", "Adding…")
+              : t("إضافة عملاء نموذجيين", "Add sample clients")}
+          </button>
+        </div>
         <div className="client-directory-list">
           {names
             .filter((n) =>

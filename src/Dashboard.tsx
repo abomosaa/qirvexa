@@ -129,6 +129,24 @@ export default function Dashboard({
   return (
     <div className="dashboard">
       <section
+        className="work-focus"
+        aria-label={t("تركيز العمل", "Work focus")}
+      >
+        <div>
+          <h2>{t("خطوتك التالية، أوضح.", "A clearer next step.")}</h2>
+          <p>
+            {t(
+              `لديك ${projects.filter((p) => p.status === "review").length} مشاريع للمراجعة، و${store.tasks.filter((task) => task.status !== "done").length} مهام مفتوحة. ابدأ بالمواعيد، أو حوّل فكرتك إلى موجز عمل.`,
+              `${projects.filter((p) => p.status === "review").length} projects in review and ${store.tasks.filter((task) => task.status !== "done").length} open tasks. Check deadlines, or turn an idea into a working brief.`,
+            )}
+          </p>
+        </div>
+        <button onClick={() => openView("deadlines")}>
+          {t("راجع المواعيد", "Review deadlines")}
+          <ArrowUpRight size={18} />
+        </button>
+      </section>
+      <section
         className="metrics overview-metrics"
         aria-label={t("ملخص الأرقام", "Key metrics")}
       >
