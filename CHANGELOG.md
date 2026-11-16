@@ -50,6 +50,8 @@
 
 ## 2026-11-16 — Client profiles and work focus / العملاء وتركيز العمل
 
+- Email authentication release: user configured Brevo SMTP; a recovery test was delivered and receipt confirmed. Enabled the local build email-delivery flag for signup/recovery; Google and guest mode retained. / تفعيل التسجيل واستعادة كلمة المرور بعد تحقق تسليم الرسالة وتأكيد المستخدم وصولها، مع بقاء Google والضيف.
+
 - Added six realistic fictional Arabic client profiles with reserved example.com addresses and non-dialable masked phones. Explicit import skips existing names and preserves user records. / ستة ملفات عربية نموذجية ببيانات آمنة وإضافة تحفظ السجلات الموجودة.
 - Fixed stale workspace state during sequential saves, preventing earlier local contact imports from being overwritten. / إصلاح فقد الملفات السابقة أثناء الحفظ المتتابع محليًا.
 - Added a record-derived work-focus summary, deadline action, and restrained motion with reduced-motion support. / ملخص عمل من السجلات ورابط المواعيد وحركة مناسبة مع دعم تقليل الحركة.
